@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worksheet 1 Grafkom</title>
+  </head>
+  <body>
+    <div><canvas id="gl-canvas" width="512"" height="512"/></div>
+
+    <!-- Menu Sementara -->
+    Shape Menu:
+    <select id="shapeMenu">
+      <option value="0">Garis</option>
+      <option value="1">Segitiga</option>
+      <option value="2">Segiempat</option>
+      <option value="3">Segibanyak</option>
+    </select>
+    <br />
+    Color Menu:
+    <select id="colorMenu">
+      <option value="0">Black</option>
+      <option value="1">Red</option>
+      <option value="2">Orange</option>
+      <option value="3">Yellow</option>
+      <option value="4">Green</option>
+      <option value="5">Cyan</option>
+      <option value="6">Blue</option>
+      <option value="7">Magenta</option>
+    </select>
+    <br />
+    Line Height Menu:
+    <select id="lineHeightMenu">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+    <br />
+    <button id="clearDrawing">Clear Drawing</button>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      #version 300 es
+
+      in vec4 aPosition;
+      in vec4 aColor;
+
+      out vec4 vColor;
+
+      void main()
+      {
+          gl_Position = aPosition;
+          vColor = aColor;
+      }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      #version 300 es
+
+      precision mediump float;
+
+      in vec4 vColor;
+      out vec4 fColor;
+
+      void main()
+      {
+          fColor = vColor;
+      }
+    </script>
+
+    <script src="./Common/initShaders.js"></script>
+    <script src="./Common/MVnew.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
