@@ -31,20 +31,19 @@ var colors = [
   vec4(0.0, 1.0, 1.0, 1.0), // cyan
   vec4(0.0, 0.0, 1.0, 1.0), // blue
   vec4(1.0, 0.0, 1.0, 1.0), // magenta
+  vec4(1.0, 1.0, 1.0, 1.0), // white
 ];
 
 var verticeList = [];
+var objectList = [];
 
 init();
 
 const clearBtn = document.getElementById("clearDrawing");
 clearBtn.onclick = function () {
   index = 0;
-  shapeIndex = 0;
-  colorIndex = 0;
-  lineIndex = 0;
-  index = 0;
   cntPos = 1;
+  objectList = [];
   verticeList = [];
 };
 
@@ -91,8 +90,50 @@ function init() {
   // create event listener when mouse down
   canvas.addEventListener("mousedown", (event) => {
     if (shapeIndex === 0) drawLine(event, vBuffer, cBuffer);
+    else if (shapeIndex === 2) drawSquare(event, vBuffer, cBuffer);
   });
   render();
+}
+
+// Draw square
+function drawSquare(event, vBuffer, cBuffer) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+  drawMode = gl.TRIANGLE_FAN;
+  incrPos = 4;
+  if (cntPos === 1) {
+    verticeList[0] = vec2(
+      (2 * (event.clientX - offsetX)) / canvas.width - 1,
+      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
+    );
+    cntPos += 1;
+  } else {
+    verticeList[2] = vec2(
+      (2 * (event.clientX - offsetX)) / canvas.width - 1,
+      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
+    );
+    verticeList[1] = vec2(verticeList[0][0], verticeList[2][1]);
+    verticeList[3] = vec2(verticeList[2][0], verticeList[0][1]);
+    for (var i = 0; i < incrPos; i++) {
+      gl.bufferSubData(
+        gl.ARRAY_BUFFER,
+        8 * (index + i),
+        flatten(verticeList[i])
+      );
+    }
+    index += incrPos;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+    var tt = colors[colorIndex];
+    for (var i = 0; i < incrPos; i++) {
+      gl.bufferSubData(
+        gl.ARRAY_BUFFER,
+        16 * (index - incrPos + i),
+        flatten(tt)
+      );
+    }
+    cntPos = 1;
+    objectList.push({ drawMode: drawMode, incrPos: incrPos });
+  }
 }
 
 // Draw Line
@@ -111,28 +152,38 @@ function drawLine(event, vBuffer, cBuffer) {
       (2 * (event.clientX - offsetX)) / canvas.width - 1,
       (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
     );
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < incrPos; i++) {
       gl.bufferSubData(
         gl.ARRAY_BUFFER,
         8 * (index + i),
         flatten(verticeList[i])
       );
     }
-    index += 2;
+    index += incrPos;
 
     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
     var tt = colors[colorIndex];
-    for (var i = 0; i < 2; i++) {
-      gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index - 2 + i), flatten(tt));
+    for (var i = 0; i < incrPos; i++) {
+      gl.bufferSubData(
+        gl.ARRAY_BUFFER,
+        16 * (index - incrPos + i),
+        flatten(tt)
+      );
     }
     cntPos = 1;
+    objectList.push({ drawMode: drawMode, incrPos: incrPos });
   }
 }
 
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
-  for (var i = 0; i < index; i += incrPos) {
-    gl.drawArrays(drawMode, i, incrPos);
+  // for (var i = 0; i < index; i += incrPos) {
+  //   gl.drawArrays(drawMode, i, incrPos);
+  // }
+  var ii = 0;
+  for (var i = 0; i < objectList.length; i++) {
+    gl.drawArrays(objectList[i].drawMode, ii, objectList[i].incrPos);
+    ii += objectList[i].incrPos;
   }
   requestAnimationFrame(render);
 }
