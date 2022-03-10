@@ -21,6 +21,9 @@ var cntPos = 1;
 let offsetY = canvas.getBoundingClientRect().top;
 let offsetX = canvas.getBoundingClientRect().left;
 
+var verticeList = [];
+var objectList = [];
+
 // Color
 var colors = [
   vec4(0.0, 0.0, 0.0, 1.0), // black
@@ -34,9 +37,6 @@ var colors = [
   vec4(1.0, 1.0, 1.0, 1.0), // white
 ];
 
-var verticeList = [];
-var objectList = [];
-
 init();
 
 const clearBtn = document.getElementById("clearDrawing");
@@ -46,6 +46,13 @@ clearBtn.onclick = function () {
   objectList = [];
   verticeList = [];
 };
+
+function getMousePos(event) {
+  return vec2(
+    (2 * (event.clientX - offsetX)) / canvas.width - 1,
+    (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
+  );
+}
 
 // Init Function
 function init() {
@@ -87,12 +94,50 @@ function init() {
     colorIndex = colorMenu.selectedIndex;
   });
 
+  // Create event list
+
   // create event listener when mouse down
   canvas.addEventListener("mousedown", (event) => {
     if (shapeIndex === 0) drawLine(event, vBuffer, cBuffer);
+    else if (shapeIndex === 1) drawTriangle(event, vBuffer, cBuffer);
     else if (shapeIndex === 2) drawSquare(event, vBuffer, cBuffer);
   });
   render();
+}
+
+function drawTriangle(event, vBuffer, cBuffer) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+  drawMode = gl.TRIANGLE_FAN;
+  incrPos = 3;
+  if (cntPos === 1) {
+    verticeList[0] = getMousePos(event);
+    cntPos++;
+  } else if (cntPos === 2) {
+    verticeList[1] = getMousePos(event);
+    cntPos++;
+  } else {
+    verticeList[2] = getMousePos(event);
+    for (var i = 0; i < incrPos; i++) {
+      gl.bufferSubData(
+        gl.ARRAY_BUFFER,
+        8 * (index + i),
+        flatten(verticeList[i])
+      );
+    }
+    index += incrPos;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+    var tt = colors[colorIndex];
+    for (var i = 0; i < incrPos; i++) {
+      gl.bufferSubData(
+        gl.ARRAY_BUFFER,
+        16 * (index - incrPos + i),
+        flatten(tt)
+      );
+    }
+    cntPos = 1;
+    objectList.push({ drawMode: drawMode, incrPos: incrPos });
+  }
 }
 
 // Draw square
@@ -101,16 +146,10 @@ function drawSquare(event, vBuffer, cBuffer) {
   drawMode = gl.TRIANGLE_FAN;
   incrPos = 4;
   if (cntPos === 1) {
-    verticeList[0] = vec2(
-      (2 * (event.clientX - offsetX)) / canvas.width - 1,
-      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
-    );
+    verticeList[0] = getMousePos(event);
     cntPos += 1;
   } else {
-    verticeList[2] = vec2(
-      (2 * (event.clientX - offsetX)) / canvas.width - 1,
-      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
-    );
+    verticeList[2] = getMousePos(event);
     verticeList[1] = vec2(verticeList[0][0], verticeList[2][1]);
     verticeList[3] = vec2(verticeList[2][0], verticeList[0][1]);
     for (var i = 0; i < incrPos; i++) {
@@ -142,16 +181,10 @@ function drawLine(event, vBuffer, cBuffer) {
   drawMode = gl.LINES;
   incrPos = 2;
   if (cntPos === 1) {
-    verticeList[0] = vec2(
-      (2 * (event.clientX - offsetX)) / canvas.width - 1,
-      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
-    );
+    verticeList[0] = getMousePos(event);
     cntPos += 1;
   } else {
-    verticeList[1] = vec2(
-      (2 * (event.clientX - offsetX)) / canvas.width - 1,
-      (2 * (canvas.height - (event.clientY - offsetY))) / canvas.height - 1
-    );
+    verticeList[1] = getMousePos(event);
     for (var i = 0; i < incrPos; i++) {
       gl.bufferSubData(
         gl.ARRAY_BUFFER,
