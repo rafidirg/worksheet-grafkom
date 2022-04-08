@@ -4,6 +4,12 @@
 let program
 let canvas
 let gl
+let cartesian = [
+    0, 1, 0,
+    0, -1, 0,
+    1, 0, 0,
+    -1, 0, 0,
+]
 let vertices = []
 
 window.onload = function init() {
@@ -29,7 +35,7 @@ function getMousePos(event) {
 
 function render() {
     // Kuadran 1
-    midPointLine(25, 25, 50, 50)
+    midPointLine(25, 25, 50, 40)
 
     // Kuadran 2
     midPointLine(-20, 25, 0, 0)
@@ -54,12 +60,20 @@ function render() {
     gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(coord);
 
+    /* Draw cartesian lines */
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cartesian), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+
     /* Draw the points */
     gl.clearColor( 0.1, 0.2, 0.2, 0.2 );
     gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.drawArrays(gl.POINTS, 0, vertices.length / 3);
+    gl.drawArrays(gl.POINTS, 4, vertices.length / 3);
+
+    gl.drawArrays(gl.LINES, 0, 4)
 }
 
 function midPointLine(x1, y1, x2, y2) {
