@@ -10,19 +10,23 @@
 <script id="vertex-shader" type="x-shader/x-vertex">
     #version 300 es
     
-    attribute vec3 coordinates;
+    in vec3 coordinates;
 
     void main(void){
         gl_Position = vec4(coordinates, 1.0);
-        gl_PointSize = 10.0;
+        gl_PointSize = 3.0;
     }
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
     #version 300 es
+
+    precision mediump float;
     
+    out vec4 FragColor;
+
     void main(void){
-        
+        FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
 
 </script>
@@ -31,6 +35,11 @@
 <script type="text/javascript" src="../Common/MVnew.js"></script>
 <script type="text/javascript" src="no2.js"></script>
 <body>
-    
+    <div class="header"><h2>Soal No. 2</h2></div>
+    <div>
+        <canvas id="gl-canvas" width="500" height="500">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
 </body>
 </html>
