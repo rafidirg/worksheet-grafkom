@@ -71,7 +71,7 @@ function render() {
     gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.drawArrays(gl.POINTS, 4, vertices.length / 3);
+    gl.drawArrays(gl.POINTS, 0, vertices.length / 3);
 
     gl.drawArrays(gl.LINES, 0, 4)
 }
