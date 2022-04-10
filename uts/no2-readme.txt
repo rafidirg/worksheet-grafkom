@@ -12,7 +12,9 @@ Menjalankan Program:
 karena styling menggunakan cdn bootstrap
 
 Manual Penggunaan:
-- Menginput titik dapat dengan memanggil method midPointLine(x1, y1, x2, y2)
+- Menginput titik dapat dengan memanggil method midPointLine(x1, y1, x2, y2) pada awal fungsi render
+- Untuk penginputan nilai x1 harus lebih kecil dari x2
+
 
 Kontribusi:
 Rafi Indrawan Dirgantara:
