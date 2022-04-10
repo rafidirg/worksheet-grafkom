@@ -49,19 +49,15 @@ function main() {
   // normal with a_normal etc..
   twgl.setAttributePrefix("a_");
 
-  var oSphereBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 10, 12, 6);;
   var h1SphereBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 5, 12, 6);
   var h2SphereBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 5, 12, 6);
-  var cubeBufferInfo   = flattenedPrimitives.createCubeBufferInfo(gl, 20);
   var coneBufferInfo   = flattenedPrimitives.createTruncatedConeBufferInfo(gl, 10, 0, 20, 12, 1, true, false);
 
   // setup GLSL program
   var programInfo = twgl.createProgramInfo(gl, [vs, fs]);
 
-  var oSphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, oSphereBufferInfo);
   var h1SphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, h1SphereBufferInfo);
   var h2SphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, h2SphereBufferInfo);
-  var cubeVAO   = twgl.createVAOFromBufferInfo(gl, programInfo, cubeBufferInfo);
   var coneVAO   = twgl.createVAOFromBufferInfo(gl, programInfo, coneBufferInfo);
 
   function degToRad(d) {
@@ -79,7 +75,7 @@ function main() {
   var fieldOfViewRadians = degToRad(60);
 
   // Uniforms for each object.
-  var sphereUniforms = {
+  var coneUniforms = {
     u_colorMult: [0.5, 1, 0.5, 1],
     u_matrix: m4.identity(),
   };
@@ -91,7 +87,7 @@ function main() {
     u_colorMult: [0.5, 0.5, 1, 1],
     u_matrix: m4.identity(),
   };
-  var sphereTranslation = [  0, 0, 0];
+  var oTranslation = [  0, 0, 0];
   var h1Translation   = [-40, 0, 0];
   var h2Translation   = [ 40, 0, 0];
 
@@ -129,9 +125,9 @@ function main() {
         m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
     // Compute the camera's matrix using look at.
-    var cameraPosition = [0, 0, 100];
-    var target = [0, 0, 0];
-    var up = [0, 1, 0];
+    var cameraPosition
+    var target
+    var up
 
     if (cameraIndex == 0) {
       cameraPosition = [0, 0, 100];
@@ -151,8 +147,6 @@ function main() {
       up = [0, 1, 0];
     }
 
-
-
     var cameraMatrix = m4.lookAt(cameraPosition, target, up);
 
     // Make a view matrix from the camera matrix.
@@ -160,8 +154,8 @@ function main() {
 
     var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
 
-    var sphereXRotation =  0;
-    var sphereYRotation =  time;
+    var oXRotation =  0;
+    var oYRotation =  time;
     var h1XRotation   = 0;
     var h1YRotation   =  time;
     var h2XRotation   =  0;
@@ -183,23 +177,23 @@ function main() {
 
     gl.useProgram(programInfo.program);
 
-    // ------ Draw the sphere --------
+    // ------ Draw the cone --------
 
     // Setup all the needed attributes.
     gl.bindVertexArray(coneVAO);
 
-    sphereUniforms.u_matrix = computeMatrix(
+    coneUniforms.u_matrix = computeMatrix(
         viewProjectionMatrix,
-        sphereTranslation,
-        sphereXRotation,
-        sphereYRotation);
+        oTranslation,
+        oXRotation,
+        oYRotation);
 
     // Set the uniforms we just computed
-    twgl.setUniforms(programInfo, sphereUniforms);
+    twgl.setUniforms(programInfo, coneUniforms);
 
-    twgl.drawBufferInfo(gl, oSphereBufferInfo);
+    twgl.drawBufferInfo(gl, coneBufferInfo);
 
-    // ------ Draw the cube --------
+    // ------ Draw the h1Sphere --------
 
     // Setup all the needed attributes.
     gl.bindVertexArray(h1SphereVAO);
@@ -215,7 +209,7 @@ function main() {
 
     twgl.drawBufferInfo(gl, h1SphereBufferInfo);
 
-    // ------ Draw the cone --------
+    // ------ Draw the h2Sphere --------
 
     // Setup all the needed attributes.
     gl.bindVertexArray(h2SphereVAO);

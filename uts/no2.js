@@ -80,6 +80,12 @@ function render() {
 function midPointLine(x1, y1, x2, y2) {
     let dx, dy, d;
     let k = 0;
+
+    if(x1 > x2) {
+        console.log("x1 harus lebih kecil dari x2")
+        return
+    }
+    
     dx = (x2 - x1);
     dy = (y2 - y1);
     
@@ -239,4 +245,6 @@ function midPointLine(x1, y1, x2, y2) {
             }
         }
     }
+
+    return [x_arr, y_arr]
 }
