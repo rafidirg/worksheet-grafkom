@@ -160,12 +160,12 @@ function main() {
 
     var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
 
-    var sphereXRotation =  time;
+    var sphereXRotation =  0;
     var sphereYRotation =  time;
-    var h1XRotation   = -time;
+    var h1XRotation   = 0;
     var h1YRotation   =  time;
-    var h2XRotation   =  time;
-    var h2YRotation   = -time;
+    var h2XRotation   =  0;
+    var h2YRotation   = time;
 
 
     h1Angle += 1;
