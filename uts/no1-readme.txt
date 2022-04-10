@@ -34,5 +34,5 @@ Rafi Indrawan Dirgantara:
 
 Lazuardi Pratama Putra Nusantara:
 - Membuat bentuk pedang dan rumah
-- Membuat Dokumentasi nomor 1
 - Menambahkan sedikit styling
+- Membuat Dokumentasi nomor 1
