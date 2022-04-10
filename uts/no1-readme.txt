@@ -8,6 +8,8 @@ Menjalankan Program:
 - Program disimpan dalam folder bernama uts
 - Di direktori yang sama seperti folder uts, terdapat folder common
 - Untuk menjalankan program masuk ke folder uts dan buka file no1.html
+- Ketika mengakses file html, usahakan perangkat terhubung ke internet
+karena styling menggunakan cdn bootstrap
 
 Manual Penggunaan:
 - Masing-masing objek dapat digerakkan, dirotasi, diperbesar, dan diperkecil
