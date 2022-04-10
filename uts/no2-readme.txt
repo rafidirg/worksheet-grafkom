@@ -6,15 +6,14 @@ Gambaran Umum:
 
 Menjalankan Program:
 - Program disimpan dalam folder bernama uts
-- Di direktori yang sama seperti folder uts, terdapat folder common
+- Pada direktori uts terdapat folder library yang ada dalam zip file
 - Untuk menjalankan program masuk ke folder uts dan buka file no2.html
 - Ketika mengakses file html, usahakan perangkat terhubung ke internet
 karena styling menggunakan cdn bootstrap
 
 Manual Penggunaan:
-- Menginput titik dapat dengan memanggil method midPointLine(x1, y1, x2, y2) pada awal fungsi render
+- Menginput titik dapat dengan memanggil method midPointLine(x1, y1, x2, y2) pada awal fungsi render (line 36)
 - Untuk penginputan nilai x1 harus lebih kecil dari x2
-
 
 Kontribusi:
 Rafi Indrawan Dirgantara:
