@@ -2,6 +2,7 @@ Nomor 2 (MidPointLine Algorithm)
 
 Gambaran Umum:
 - Program akan menampilkan hasil penggambaran garis sesuai dengan titik input pada kode no2.js
+- Garis yang dihasilkan bisa di kuadaran 1, 2, 3, maupun 4 tergantung dengan titik input
 
 Menjalankan Program:
 - Program disimpan dalam folder bernama uts
@@ -13,8 +14,10 @@ Manual Penggunaan:
 
 Kontribusi:
 Rafi Indrawan Dirgantara:
+- Menginput titik-titik yang diperlukan
 - Memplot titik-titik ke canvas
 
 Lazuardi Pratama Putra Nusantara:
 - Membuat method midPointLine
 - Menambahkan sedikit styling
+- Membuat Dokumentasi nomor 2

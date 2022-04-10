@@ -31,3 +31,4 @@ Rafi Indrawan Dirgantara:
 Lazuardi Pratama Putra Nusantara:
 - Membuat objek berotasi yang lebih besar (objek yang dikelilingi)
 - Menambahkan sedikit styling
+- Membuat Dokumentasi nomor 3
