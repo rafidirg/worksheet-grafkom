@@ -76,6 +76,7 @@ function render() {
     gl.drawArrays(gl.LINES, 0, 4)
 }
 
+// source: https://github.com/ashiagarwal73/Bresenham-s-line-algorithm-for-all-quadrants/blob/master/Bresenhams.c
 function midPointLine(x1, y1, x2, y2) {
     let dx, dy, d;
     let k = 0;

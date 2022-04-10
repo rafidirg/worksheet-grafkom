@@ -142,7 +142,7 @@ function render()
 	
     gl.clear( gl.COLOR_BUFFER_BIT );
 	
-    drawA();
+    drawStar();
 	drawSword();
 	drawHouse();
 	
@@ -216,8 +216,8 @@ function drawHouse() {
 	
 }
 
-function drawA() {
-    count = setGeometry(gl);
+function drawStar() {
+    count = setGeometryStar(gl);
 	
 	angleInRadians = (objectProps[2].angle * Math.PI/180); //rotating counter clockwise
 
@@ -244,24 +244,6 @@ function drawA() {
 
 	//gl.clear( gl.COLOR_BUFFER_BIT );
 	gl.drawArrays( primitiveType, offset, count / 2);
-}
-
-function setGeometry(gl) {
-    var floatArray5;
-    floatArray5 = new Float32Array([
-        	  0, 50,
-			  -50, -50,
-			  25, 0,
-			  25, 25,
-			  25, 0,
-			  50, 25,
-			  -50, 25,
-			  50, -50,
-			  25, 25,
-			  0, 0
-    ])
-    gl.bufferData(gl.ARRAY_BUFFER, floatArray5, gl.STATIC_DRAW);
-    return floatArray5.length
 }
 
 function setGeometrySword(gl) {
@@ -397,3 +379,20 @@ function setGeometryHouse(gl) {
     return floatArray.length;
 }
 
+function setGeometryStar(gl) {
+    var floatArray5;
+    floatArray5 = new Float32Array([
+        	  0, 50,
+			  -50, -50,
+			  25, 0,
+			  25, 25,
+			  25, 0,
+			  50, 25,
+			  -50, 25,
+			  50, -50,
+			  25, 25,
+			  0, 0
+    ])
+    gl.bufferData(gl.ARRAY_BUFFER, floatArray5, gl.STATIC_DRAW);
+    return floatArray5.length
+}

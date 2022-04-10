@@ -1,3 +1,5 @@
+// source: https://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
+
 "use strict";
 
 var vs = `#version 300 es
@@ -184,7 +186,7 @@ function main() {
     // ------ Draw the sphere --------
 
     // Setup all the needed attributes.
-    gl.bindVertexArray(oSphereVAO);
+    gl.bindVertexArray(coneVAO);
 
     sphereUniforms.u_matrix = computeMatrix(
         viewProjectionMatrix,
