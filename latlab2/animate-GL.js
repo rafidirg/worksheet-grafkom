@@ -92,7 +92,7 @@ function render() {
   drawletterI();
   drawletterD();
 
-  requestAnimationFrame(render); //refresh
+  // requestAnimationFrame(render); //refresh
 }
 
 function drawletterI() {
@@ -332,6 +332,10 @@ function setGeometry(gl, shape) {
 
 	  const vertices_i = drawPointTo3DCube(points_i)
 
+    for( var ii = 0; ii < vertices_i.length; ii += 3 ) {
+      console.log (`${vertices_i[ii]}, ${vertices_i[ii+1]}, ${vertices_i[ii+2]}`)
+    }
+
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(vertices_i),
@@ -388,6 +392,8 @@ function setGeometry(gl, shape) {
       vertices_d = vertices_d.concat(drawPointTo3DCube(points2))
       vertices_d = vertices_d.concat(drawPointTo3DCube(points3))
       vertices_d = vertices_d.concat(drawPointTo3DCube(points4))
+
+      console.log(vertices_d)
 
       gl.bufferData(
         gl.ARRAY_BUFFER,

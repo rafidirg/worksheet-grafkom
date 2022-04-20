@@ -23,6 +23,8 @@ Manual Penggunaan:
 - View hidrogen-1 dan hidrogen-2 masing-masing akan menampilkan scene dari sudut pandang hidrogen-1 dan hidrogen-2 
 (objek lebih kecil yang sedang mengelilingi objek yang lebih besar)
 
+Notes tambahan:
+- Sebagian source code mengikuti tutorial pada https://webgl2fundamentals.org/
 
 Kontribusi:
 Rafi Indrawan Dirgantara:
