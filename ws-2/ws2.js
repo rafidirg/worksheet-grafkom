@@ -57,10 +57,6 @@ void main() {
   FragColor.rgb *= light;
 }`
 
-const cameraPosition = [10, 10, 10];
-const upVector = [0, 1, 0];
-const fPosition = [0, 0, 0];
-
 var offset = 0;
 
 var Node = function() {
@@ -77,10 +73,9 @@ Node.prototype.setParent = function(parent) {
             this.parent.children.splice(ndx, 1);
         }
     }
-
     // Add us to our new parent
     if (parent){
-        parent.child.append(this);
+        parent.children.push(this);
     }
     this.parent = parent;
 };
@@ -110,80 +105,295 @@ function main() {
         alert("WebGL2 is not Available!");
         return;
     }
-    
-    var program = initShaders(gl, "vertex-shader", "fragment-shader")
-    gl.useProgram(program);
 
-    var positionLocation =
-        gl.getAttribLocation(program, "a_position");
-    var normalLocation =
-        gl.getAttribLocation(program, "a_normal");
+    twgl.setAttributePrefix("a_")
+    const programInfo = twgl.createProgramInfo(gl, [vs, fs]);
 
-    var worldViewProjectionLocation = 
-        gl.getUniformLocation(program, "u_worldViewProjection");
-    var worldInverseTransposeLocation = 
-        gl.getUniformLocation(program, "u_worldInverseTranspose");
-	var colorLocation = 
-        gl.getUniformLocation(program, "u_color");
-	var lightWorldPositionLocation =  
-        gl.getUniformLocation(program, "u_lightWorldPosition");
-	var worldLocation =  
-        gl.getUniformLocation(program, "u_world");
+    // Create Buffer and VAO Spider
+    var spiderBodyBufferInfo = twgl.createBufferInfoFromArrays(gl, spiderBodyArrays);
+    var r1BufferInfo = twgl.createBufferInfoFromArrays(gl, r1Arrays);
+    var r2BufferInfo = twgl.createBufferInfoFromArrays(gl, r2Arrays);
+    var r3BufferInfo = twgl.createBufferInfoFromArrays(gl, r3Arrays);
+    var r4BufferInfo = twgl.createBufferInfoFromArrays(gl, r4Arrays);
+    var l1BufferInfo = twgl.createBufferInfoFromArrays(gl, l1Arrays);
+    var l2BufferInfo = twgl.createBufferInfoFromArrays(gl, l2Arrays);
+    var l3BufferInfo = twgl.createBufferInfoFromArrays(gl, l3Arrays);
+    var l4BufferInfo = twgl.createBufferInfoFromArrays(gl, l4Arrays);
 
-    var positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    
-    // Enable Attrib Position
-    gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(positionLocation);
+    var spiderBodyVAO = twgl.createVAOFromBufferInfo(gl, programInfo, spiderBodyBufferInfo);
+    var r1VAO = twgl.createVAOFromBufferInfo(gl, programInfo, r1BufferInfo);
+    var r2VAO = twgl.createVAOFromBufferInfo(gl, programInfo, r2BufferInfo);
+    var r3VAO = twgl.createVAOFromBufferInfo(gl, programInfo, r3BufferInfo);
+    var r4VAO = twgl.createVAOFromBufferInfo(gl, programInfo, r4BufferInfo);
+    var l1VAO = twgl.createVAOFromBufferInfo(gl, programInfo, l1BufferInfo);
+    var l2VAO = twgl.createVAOFromBufferInfo(gl, programInfo, l2BufferInfo);
+    var l3VAO = twgl.createVAOFromBufferInfo(gl, programInfo, l3BufferInfo);
+    var l4VAO = twgl.createVAOFromBufferInfo(gl, programInfo, l4BufferInfo);
 
-    var normalBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    // Create Node
+    var spiderBodyNode = new Node();
+    spiderBodyNode.localMatrix = m4.translation(0, 0, 0);
+    spiderBodyNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: spiderBodyBufferInfo,
+        vertexArray: spiderBodyVAO,
+    };
 
-    // Enable Attrib Normal
-    gl.vertexAttribPointer(normalLocation, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(normalLocation);
+    var r1Node = new Node();
+    r1Node.localMatrix = m4.translation(0, 0, 0);
+    r1Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: r1BufferInfo,
+        vertexArray: r1VAO,
+    };
 
-    const buffers = {
-        position: positionBuffer,
-        normal: normalBuffer
+    var r2Node = new Node();
+    r2Node.localMatrix = m4.translation(0, 0, 0);
+    r2Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: r2BufferInfo,
+        vertexArray: r2VAO,
+    };
+
+    var r3Node = new Node();
+    r3Node.localMatrix = m4.translation(0, 0, 0);
+    r3Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: r3BufferInfo,
+        vertexArray: r3VAO,
+    };
+
+    var r4Node = new Node();
+    r4Node.localMatrix = m4.translation(0, 0, 0);
+    r4Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: r4BufferInfo,
+        vertexArray: r4VAO,
+    };
+
+    var l1Node = new Node();
+    l1Node.localMatrix = m4.translation(0, 0, 0);
+    l1Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: l1BufferInfo,
+        vertexArray: l1VAO,
+    };
+
+    var l2Node = new Node();
+    l2Node.localMatrix = m4.translation(0, 0, 0);
+    l2Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: l2BufferInfo,
+        vertexArray: l2VAO,
+    };
+
+    var l3Node = new Node();
+    l3Node.localMatrix = m4.translation(0, 0, 0);
+    l3Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: l3BufferInfo,
+        vertexArray: l3VAO,
+    };
+
+    var l4Node = new Node();
+    l4Node.localMatrix = m4.translation(0, 0, 0);
+    l4Node.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: l4BufferInfo,
+        vertexArray: l4VAO,
+    };
+
+    r1Node.setParent(spiderBodyNode);
+    r2Node.setParent(spiderBodyNode);
+    r3Node.setParent(spiderBodyNode);
+    r4Node.setParent(spiderBodyNode);
+    l1Node.setParent(spiderBodyNode);
+    l2Node.setParent(spiderBodyNode);
+    l3Node.setParent(spiderBodyNode);
+    l4Node.setParent(spiderBodyNode);
+
+    // Create Buffer and VAO Bird
+    var bodyBufferInfo = twgl.createBufferInfoFromArrays(gl, bodyArrays);
+    var upLeftBufferInfo = twgl.createBufferInfoFromArrays(gl, upLeftLegArrays);
+    var lowLeftBufferInfo = twgl.createBufferInfoFromArrays(gl, lowLeftLegArrays);
+    var upRightBufferInfo = twgl.createBufferInfoFromArrays(gl, upRightLegArrays);
+    var lowRightBufferInfo = twgl.createBufferInfoFromArrays(gl, lowRightLegArrays);
+    var leftWingBufferInfo = twgl.createBufferInfoFromArrays(gl, leftWingArrays);
+    var rightWingBufferInfo = twgl.createBufferInfoFromArrays(gl, rightWingArrays);
+    var neckBufferInfo = twgl.createBufferInfoFromArrays(gl, neckArrays);
+    var headBufferInfo = twgl.createBufferInfoFromArrays(gl, headArrays);
+
+    var bodyVAO = twgl.createVAOFromBufferInfo(gl, programInfo, bodyBufferInfo);
+    var upLeftVAO = twgl.createVAOFromBufferInfo(gl, programInfo, upLeftBufferInfo);
+    var lowLeftVAO = twgl.createVAOFromBufferInfo(gl, programInfo, lowLeftBufferInfo);
+    var upRightVAO = twgl.createVAOFromBufferInfo(gl, programInfo, upRightBufferInfo);
+    var lowRightVAO = twgl.createVAOFromBufferInfo(gl, programInfo, lowRightBufferInfo);
+    var leftWingVAO = twgl.createVAOFromBufferInfo(gl, programInfo, leftWingBufferInfo);
+    var rightWingVAO = twgl.createVAOFromBufferInfo(gl, programInfo, rightWingBufferInfo);
+    var neckVAO = twgl.createVAOFromBufferInfo(gl, programInfo, neckBufferInfo);
+    var headVAO = twgl.createVAOFromBufferInfo(gl, programInfo, headBufferInfo);
+
+    var bodyNode = new Node();
+    bodyNode.localMatrix = m4.translation(0, 0, 0);
+    bodyNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: bodyBufferInfo,
+        vertexArray: bodyVAO,
+    };
+
+    var upLeftNode = new Node();
+    upLeftNode.localMatrix = m4.translation(0, 0, 0);
+    upLeftNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: upLeftBufferInfo,
+        vertexArray: upLeftVAO,
+    };
+
+    var lowLeftNode = new Node();
+    lowLeftNode.localMatrix = m4.translation(0, 0, 0);
+    lowLeftNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: lowLeftBufferInfo,
+        vertexArray: lowLeftVAO,
+    };
+
+    var upRightNode = new Node();
+    upRightNode.localMatrix = m4.translation(0, 0, 0);
+    upRightNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: upRightBufferInfo,
+        vertexArray: upRightVAO,
+    };
+
+    var lowRightNode = new Node();
+    lowRightNode.localMatrix = m4.translation(0, 0, 0);
+    lowRightNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: lowRightBufferInfo,
+        vertexArray: lowRightVAO,
+    };
+
+    var leftWingNode = new Node();
+    leftWingNode.localMatrix = m4.translation(0, 0, 0);
+    leftWingNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: leftWingBufferInfo,
+        vertexArray: leftWingVAO,
+    };
+
+    var rightWingNode = new Node();
+    rightWingNode.localMatrix = m4.translation(0, 0, 0);
+    rightWingNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: rightWingBufferInfo,
+        vertexArray: rightWingVAO,
+    };
+
+    var neckNode = new Node();
+    neckNode.localMatrix = m4.translation(0, 0, 0);
+    neckNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: neckBufferInfo,
+        vertexArray: neckVAO,
+    };
+
+    var headNode = new Node();
+    headNode.localMatrix = m4.translation(0, 0, 0);
+    headNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: headBufferInfo,
+        vertexArray: headVAO,
+    };
+
+    upLeftNode.setParent(bodyNode);
+    upRightNode.setParent(bodyNode);
+    lowLeftNode.setParent(upLeftNode);
+    lowRightNode.setParent(upRightNode);
+    rightWingNode.setParent(bodyNode);
+    leftWingNode.setParent(bodyNode);
+    neckNode.setParent(bodyNode);
+    headNode.setParent(neckNode);
+
+    var objects = [
+        spiderBodyNode, 
+        r1Node, 
+        r2Node,
+        r3Node,
+        r4Node,
+        l1Node, 
+        l2Node,
+        l3Node,
+        l4Node,
+        bodyNode,
+        upLeftNode,
+        lowLeftNode,
+        upRightNode,
+        lowRightNode,
+        leftWingNode,
+        rightWingNode,
+        neckNode,
+        headNode,
+    ];
+    var objectsToDraw = [
+        spiderBodyNode.drawInfo, 
+        r1Node.drawInfo,
+        r2Node.drawInfo,
+        r3Node.drawInfo,
+        r4Node.drawInfo,
+        l1Node.drawInfo,
+        l2Node.drawInfo,
+        l3Node.drawInfo,
+        l4Node.drawInfo,
+        bodyNode.drawInfo,
+        upLeftNode.drawInfo,
+        lowLeftNode.drawInfo,
+        upRightNode.drawInfo,
+        lowRightNode.drawInfo,
+        leftWingNode.drawInfo,
+        rightWingNode.drawInfo,
+        neckNode.drawInfo,
+        headNode.drawInfo,
+    ];
+
+    const uniforms = {
+        u_lightWorldPosition: [10, 10, 10],
+        u_color: [0.2, 1, 0.2, 1]
     }
 
-    // Projection Matrix
-    const projectionMatrix = m4.perspective(
-        degToRad(60),
-        canvas.width / canvas.height,
-        1,
-        200
-    )
-
-    render()
+    render();
 
     function render() {
 
+        gl.useProgram(programInfo.program);
+
+        // tell WebGL how to convert from clip space to pixels
+        gl.viewport(0, 0, canvas.width, canvas.height);
         gl.enable(gl.DEPTH_TEST);
-        gl.enable(gl.CULL_FACE)
-        
-        const cameraMatrix = m4.lookAt(cameraPosition, upVector, fPosition);
-        const viewMatrix = m4.inverse(cameraMatrix);
-        const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
-        
-        const worldMatrix = m4.yRotation(0);
-        const worldViewProjectionMatrix = m4.multiply(viewProjectionMatrix, worldMatrix);
-        const worldInverseMatrix = m4.inverse(worldMatrix);
-        const worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
+        gl.enable(gl.CULL_FACE);
 
-        gl.uniformMatrix4fv(worldViewProjectionLocation, false, worldViewProjectionMatrix);
-        gl.uniformMatrix4fv(worldInverseTransposeLocation, false, worldInverseTransposeMatrix);
-        gl.uniformMatrix4fv(worldLocation, false, worldMatrix);
-
-        gl.uniform4fv(colorLocation, [0.2, 1, 0.2, 1 ]);
-        gl.uniform3fv(lightWorldPositionLocation, [5, 5, 5]);
-
+        // Clear the canvas and the depth buffer
         gl.clearColor(0, 0, 0, 0.1);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        drawSpiderBody(gl, buffers);
+        // Projection Matrix
+        const projectionMatrix = 
+            m4.perspective(degToRad(60), canvas.width / canvas.height, 1, 200);
+
+        // Compute camera matrix using look at.
+        var cameraPosition = [30, 30, 30];
+        var target = [0, 0, 0];
+        var up = [0, 1, 0];
+        const cameraMatrix = m4.lookAt(cameraPosition, target, up);
+        const viewMatrix = m4.inverse(cameraMatrix);
+        const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+        
+        uniforms.u_world = m4.yRotation(0);
+        uniforms.u_worldViewProjection = m4.multiply(viewProjectionMatrix, uniforms.u_world);
+        uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(uniforms.u_world));
+
+        twgl.setUniforms(programInfo, uniforms);
+
+        twgl.drawObjectList(gl, objectsToDraw);
 
     }
 
