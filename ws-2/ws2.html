@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WS2: Hierarchical Modelling & Lighting</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec3 a_normal; //change color to normal vector
+
+uniform vec3 u_lightWorldPosition;
+
+uniform mat4 u_world;
+uniform mat4 u_worldViewProjection;
+uniform mat4 u_worldInverseTranspose;
+
+out vec3 v_normal;
+out vec3 v_surfaceToLight;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_worldViewProjection * a_position;
+
+  // orient the normals and pass to the fragment shader
+  v_normal = mat3(u_worldInverseTranspose) * a_normal;
+
+  // compute the world position of the surfoace
+  vec3 surfaceWorldPosition = (u_world * a_position).xyz;
+
+  // compute the vector of the surface to the light
+  // and pass it to the fragment shader
+  v_surfaceToLight = u_lightWorldPosition - surfaceWorldPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+
+// Passed in from the vertex shader.
+in vec3 v_normal;
+in vec3 v_surfaceToLight;
+
+uniform vec4 u_color;
+
+out vec4 FragColor;
+
+void main() {
+  // because v_normal is a varying it's interpolated
+  // we it will not be a uint vector. Normalizing it
+  // will make it a unit vector again
+  vec3 normal = normalize(v_normal);
+
+  vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
+
+  float light = dot(normal, surfaceToLightDirection);
+
+  FragColor = u_color;
+
+  // Lets multiply just the color portion (not the alpha)
+  // by the light
+  FragColor.rgb *= light;
+}
+</script>
+<script type="text/javascript" src="Common/initShaders.js"></script>
+<script type="text/javascript" src="Common/MVNew.js"></script>
+<script src="twgl-full.min.js"></script>
+<script src="m4.js"></script>
+<script src="objects.js"></script>
+<script src="ws2.js"></script>
+
+
+<body>
+  <div class="d-flex flex-column justify-content-center align-items-center p-5">
+    <div class="title mb-2">
+      <h2>WS-2</h2>
+    </div>
+    <canvas id="gl-canvas" width="720" height="720">
+      Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+  </div>
+</body>
+
+</html>
