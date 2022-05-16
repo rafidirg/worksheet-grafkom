@@ -57,6 +57,65 @@ void main() {
   FragColor.rgb *= light;
 }`
 
+const upMatrix = m4.translation(0, -10, 0)
+for (var ii = 0; ii < upLeftLegArrays.position.length; ii += 3){
+    var vector = 
+        m4.transformPoint(
+            upMatrix, [
+                upLeftLegArrays.position[ii + 0],
+                upLeftLegArrays.position[ii + 1],
+                upLeftLegArrays.position[ii + 2],
+                1
+            ]);
+    upLeftLegArrays.position[ii + 0] = vector[0];
+    upLeftLegArrays.position[ii + 1] = vector[1];
+    upLeftLegArrays.position[ii + 2] = vector[2];
+}
+
+
+for (var ii = 0; ii < upRightLegArrays.position.length; ii += 3){
+    var vector = 
+        m4.transformPoint(
+            upMatrix, [
+                upRightLegArrays.position[ii + 0],
+                upRightLegArrays.position[ii + 1],
+                upRightLegArrays.position[ii + 2],
+                1
+            ]);
+    upRightLegArrays.position[ii + 0] = vector[0];
+    upRightLegArrays.position[ii + 1] = vector[1];
+    upRightLegArrays.position[ii + 2] = vector[2];
+}
+
+const lowMatrix = m4.translation(0, -5, 0)
+for (var ii = 0; ii < lowLeftLegArrays.position.length; ii += 3){
+    var vector = 
+        m4.transformPoint(
+            lowMatrix, [
+                lowLeftLegArrays.position[ii + 0],
+                lowLeftLegArrays.position[ii + 1],
+                lowLeftLegArrays.position[ii + 2],
+                1
+            ]);
+    lowLeftLegArrays.position[ii + 0] = vector[0];
+    lowLeftLegArrays.position[ii + 1] = vector[1];
+    lowLeftLegArrays.position[ii + 2] = vector[2];
+}
+
+
+for (var ii = 0; ii < lowRightLegArrays.position.length; ii += 3){
+    var vector = 
+        m4.transformPoint(
+            lowMatrix, [
+                lowRightLegArrays.position[ii + 0],
+                lowRightLegArrays.position[ii + 1],
+                lowRightLegArrays.position[ii + 2],
+                1
+            ]);
+    lowRightLegArrays.position[ii + 0] = vector[0];
+    lowRightLegArrays.position[ii + 1] = vector[1];
+    lowRightLegArrays.position[ii + 2] = vector[2];
+}
 
 
 var Node = function() {
@@ -257,7 +316,7 @@ function main() {
     };
 
     var upLeftNode = new Node();
-    upLeftNode.localMatrix = m4.translation(0, 0, 0);
+    upLeftNode.localMatrix = m4.translation(0, 10, 0);
     upLeftNode.drawInfo = {
         uniforms: {},
         programInfo: programInfo,
@@ -266,7 +325,7 @@ function main() {
     };
 
     var lowLeftNode = new Node();
-    lowLeftNode.localMatrix = m4.translation(0, 0, 0);
+    lowLeftNode.localMatrix = m4.translation(0, -5, 0);
     lowLeftNode.drawInfo = {
         uniforms: {},
         programInfo: programInfo,
@@ -275,7 +334,7 @@ function main() {
     };
 
     var upRightNode = new Node();
-    upRightNode.localMatrix = m4.translation(0, 0, 0);
+    upRightNode.localMatrix = m4.translation(0, 10, 0);
     upRightNode.drawInfo = {
         uniforms: {},
         programInfo: programInfo,
@@ -284,7 +343,7 @@ function main() {
     };
 
     var lowRightNode = new Node();
-    lowRightNode.localMatrix = m4.translation(0, 0, 0);
+    lowRightNode.localMatrix = m4.translation(0, -5, 0);
     lowRightNode.drawInfo = {
         uniforms: {},
         programInfo: programInfo,
@@ -368,16 +427,32 @@ function main() {
         bodyNode.localMatrix = m4.multiply(m4.translation(15, 0, 0), m4.yRotation(degToRad(event.target.value) + degToRad(90)));
     };
     document.getElementById("upLeft").onchange = function(event) {
-        upLeftNode.localMatrix = m4.zRotation(degToRad(event.target.value));
+        upLeftNode.localMatrix = 
+            m4.multiply(
+                m4.translation(0, 10, 0),
+                m4.zRotation(degToRad(event.target.value))
+            );
     };
     document.getElementById("lowLeft").onchange = function(event) {
-        lowLeftNode.localMatrix = m4.zRotation(degToRad(event.target.value));
+        lowLeftNode.localMatrix =
+            m4.multiply(
+                m4.translation(0, -5, 0),
+                m4.zRotation(degToRad(event.target.value))
+            );
     };
     document.getElementById("upRight").onchange = function(event) {
-        upRightNode.localMatrix = m4.zRotation(degToRad(event.target.value));
+        upRightNode.localMatrix = 
+            m4.multiply(
+                m4.translation(0, 10, 0),
+                m4.zRotation(degToRad(event.target.value))
+            );
     };
     document.getElementById("lowRight").onchange = function(event) {
-        lowRightNode.localMatrix = m4.zRotation(degToRad(event.target.value));
+        lowRightNode.localMatrix = 
+            m4.multiply(
+                m4.translation(0, -5, 0),
+                m4.zRotation(degToRad(event.target.value))
+            );
     };
     document.getElementById("leftWing").onchange = function(event) {
         leftWingNode.localMatrix = m4.xRotation(degToRad(event.target.value));
