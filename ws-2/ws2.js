@@ -337,6 +337,61 @@ function main() {
     neckNode.setParent(bodyNode);
     headNode.setParent(neckNode);
 
+    document.getElementById("spiderBody").onchange = function(event) {
+        spiderBodyNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("r1").onchange = function(event) {
+        r1Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("r2").onchange = function(event) {
+        r2Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("r3").onchange = function(event) {
+        r3Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("r4").onchange = function(event) {
+        r4Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("l1").onchange = function(event) {
+        l1Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("l2").onchange = function(event) {
+        l2Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("l3").onchange = function(event) {
+        l3Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("l4").onchange = function(event) {
+        l4Node.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("birdBody").onchange = function(event) {
+        bodyNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("upLeft").onchange = function(event) {
+        upLeftNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("lowLeft").onchange = function(event) {
+        lowLeftNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("upRight").onchange = function(event) {
+        upRightNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("lowRight").onchange = function(event) {
+        lowRightNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+    document.getElementById("leftWing").onchange = function(event) {
+        leftWingNode.localMatrix = m4.xRotation(-0.1 * Math.sin(degToRad(event.target.value)));
+    };
+    document.getElementById("rightWing").onchange = function(event) {
+        rightWingNode.localMatrix = m4.xRotation(0.1 * Math.sin(degToRad(event.target.value)));
+    };
+    document.getElementById("neck").onchange = function(event) {
+        neckNode.localMatrix = m4.zRotation(degToRad(event.target.value));
+    };
+    document.getElementById("head").onchange = function(event) {
+        headNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+    };
+
     var lightSphereBufferInfo = flattenedPrimitives.createTruncatedConeBufferInfo(gl, 2, 0, 2, 4, 1, true, false);
     var lightSphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, lightSphereBufferInfo);
 
@@ -439,7 +494,7 @@ function main() {
         lightNode.localMatrix = 
             m4.multiply(
                 lightNode.localMatrix,
-                m4.yRotation(degToRad(0.1))
+                m4.yRotation(degToRad(0.3))
             )
 
         if (animating) {
@@ -486,7 +541,7 @@ function main() {
 
         twgl.drawObjectList(gl, objectsToDraw);
 
-        requestAnimationFrame(render)
+        requestAnimationFrame(render);
     }
 
     function radToDeg(r) {
