@@ -338,7 +338,7 @@ function main() {
     headNode.setParent(neckNode);
 
     document.getElementById("spiderBody").onchange = function(event) {
-        spiderBodyNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        spiderBodyNode.localMatrix = m4.multiply(m4.translation(-5, 0, 0), m4.yRotation(degToRad(event.target.value)));
     };
     document.getElementById("r1").onchange = function(event) {
         r1Node.localMatrix = m4.yRotation(degToRad(event.target.value));
@@ -368,22 +368,22 @@ function main() {
         bodyNode.localMatrix = m4.yRotation(degToRad(event.target.value));
     };
     document.getElementById("upLeft").onchange = function(event) {
-        upLeftNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        upLeftNode.localMatrix = m4.zRotation(degToRad(event.target.value));
     };
     document.getElementById("lowLeft").onchange = function(event) {
         lowLeftNode.localMatrix = m4.yRotation(degToRad(event.target.value));
     };
     document.getElementById("upRight").onchange = function(event) {
-        upRightNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        upRightNode.localMatrix = m4.zRotation(degToRad(event.target.value));
     };
     document.getElementById("lowRight").onchange = function(event) {
-        lowRightNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        lowRightNode.localMatrix = m4.zRotation(degToRad(event.target.value));
     };
     document.getElementById("leftWing").onchange = function(event) {
-        leftWingNode.localMatrix = m4.xRotation(-0.1 * Math.sin(degToRad(event.target.value)));
+        leftWingNode.localMatrix = m4.xRotation(degToRad(event.target.value));
     };
     document.getElementById("rightWing").onchange = function(event) {
-        rightWingNode.localMatrix = m4.xRotation(0.1 * Math.sin(degToRad(event.target.value)));
+        rightWingNode.localMatrix = m4.xRotation(degToRad(event.target.value));
     };
     document.getElementById("neck").onchange = function(event) {
         neckNode.localMatrix = m4.zRotation(degToRad(event.target.value));

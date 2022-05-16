@@ -5,100 +5,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WS2: Hierarchical Modelling & Lighting</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
-  <div class="d-flex flex-column justify-content-center align-items-center p-5">
-    <div class="title mb-2">
-      <h2>WS-2</h2>
+  <div class="d-flex flex-column justify-content-center align-items-center title mt-5">
+    <h2>Worksheet 2</h2>
+    <div class="mt-2">
+      <input type="checkbox" id="animate" class="btn btn-outline-primary"> Animate
+      <input type="checkbox" id="camera" class="btn btn-outline-primary"> Camera Roll
+    </div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="flex-column">
+      <!-- Spider -->
+      <div>
+        <label for="spiderBody" class="form-label">Spider Body</label>
+        <input class="form-range" id="spiderBody" type="range" min="-180" max="180" step="5" value="0" />
+      </div>
+      <!-- Kaki kanan -->
+      <div>
+        <label for="r1" class="form-label">Kaki Kanan 1</label>
+        <input class="form-range" id="r1" type="range" min="0" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="r2" class="form-label">Kaki Kanan 2</label>
+        <input class="form-range" id="r2" type="range" min="-10" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="r3" class="form-label">Kaki Kanan 3</label>
+        <input class="form-range" id="r3" type="range" min="-10" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="r4" class="form-label">Kaki Kanan 4</label>
+        <input class="form-range" id="r4" type="range" min="0" max="5" step="1" value="0" />
+      </div>
+      <!-- Kaki kiri -->
+      <div>
+        <label for="l1" class="form-label">Kaki Kiri 1</label>
+        <input class="form-range" id="l1" type="range" min="0" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="l2" class="form-label">Kaki Kiri 2</label>
+        <input class="form-range" id="l2" type="range" min="-10" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="l3" class="form-label">Kaki Kiri 3</label>
+        <input class="form-range" id="l3" type="range" min="-10" max="10" step="1" value="0" />
+      </div>
+      <div>
+        <label for="l4" class="form-label">Kaki Kiri 4</label>
+        <input class="form-range" id="l4" type="range" min="0" max="5" step="1" value="0" />
+      </div>
     </div>
 
-    <!-- Spider -->
-    <div>
-      spider body angle -180 <input id="spiderBody" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <!-- Kaki kanan -->
-    <div>
-      kaki kanan 1 angle -180 <input id="r1" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kanan 2 angle -180 <input id="r2" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kanan 3 angle -180 <input id="r3" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kanan 4 angle -180 <input id="r4" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <!-- Kaki kiri -->
-    <div>
-      kaki kiri 1 angle -180 <input id="l1" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kiri 2 angle -180 <input id="l2" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kiri 3 angle -180 <input id="l3" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      kaki kiri 4 angle -180 <input id="l4" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
+    <div class="flex-column p-5">
+      <canvas id="gl-canvas" width="720" height="720">
+        Oops ... your browser doesn't support the HTML5 canvas element
+      </canvas>
+    </div>
 
-    <!-- Bird -->
-    <div>
-      bird body angle -180 <input id="birdBody" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      upLeft angle -180 <input id="upLeft" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      lowLeft angle -180 <input id="lowLeft" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      upRight angle -180 <input id="upRight" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      lowRight angle -180 <input id="lowRight" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      leftWing angle -180 <input id="leftWing" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      rightWing angle -180 <input id="rightWing" type="range" min="-180" max="180" step="10" value="0" />
-      180
-    </div><br />
-    <div>
-      neck angle -180 <input id="neck" type="range" min="0" max="6" step="0.5" value="0" />
-      180
-    </div><br />
-    <div>
-      head angle -180 <input id="head" type="range" min="-10" max="45" step="10" value="0" />
-      180
-    </div><br />
-
-    <canvas id="gl-canvas" width="720" height="720">
-      Oops ... your browser doesn't support the HTML5 canvas element
-    </canvas>
-    <div class="mt-2">
-      <input type="checkbox" id="animate" class="btn btn-outline-primary"> Animate</input>
-      <input type="checkbox" id="camera" class="btn btn-outline-primary"> Camera Roll</input>
+    <div class="flex-column">
+      <!-- Bird -->
+      <div>
+        <label for="birdBody" class="form-label">Bird Body</label>
+        <input class="form-range" id="birdBody" type="range" min="-180" max="180" step="5" value="0" />
+      </div>
+      <div>
+        <label for="upLeft" class="form-label">Kaki Kiri Atas</label>
+        <input class="form-range" id="upLeft" type="range" min="-180" max="180" step="10" value="0" />
+      </div>
+      <div>
+        <label for="lowLeft" class="form-label">Kaki Kiri Bawah</label>
+        <input class="form-range" id="lowLeft" type="range" min="-180" max="180" step="10" value="0" />
+      </div>
+      <div>
+        <label for="upRight" class="form-label">Kaki Kanan Atas</label>
+        <input class="form-range" id="upRight" type="range" min="-180" max="180" step="10" value="0" />
+      </div>
+      <div>
+        <label for="lowRight" class="form-label">Kaki Kanan Bawah</label>
+        <input class="form-range" id="lowRight" type="range" min="-180" max="180" step="10" value="0" />
+      </div>
+      <div>
+        <label for="leftWing" class="form-label">Sayap Kiri</label>
+        <input class="form-range" id="leftWing" type="range" min="-4" max="5" step="1" value="0" />
+      </div>
+      <div>
+        <label for="rightWing" class="form-label">Sayap Kanan</label>
+        <input class="form-range" id="rightWing" type="range" min="-4" max="5" step="1" value="0" />
+      </div>
+      <div>
+        <label for="neck" class="form-label">neck</label>
+        <input class="form-range" id="neck" type="range" min="-5" max="1" step="0.5" value="0" />
+      </div>
+      <div>
+        <label for="head" class="form-label">head</label>
+        <input class="form-range" id="head" type="range" min="-10" max="10" step="1" value="0" />
+      </div>
     </div>
   </div>
 </body>
