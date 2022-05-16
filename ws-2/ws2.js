@@ -365,13 +365,13 @@ function main() {
         l4Node.localMatrix = m4.yRotation(degToRad(event.target.value));
     };
     document.getElementById("birdBody").onchange = function(event) {
-        bodyNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        bodyNode.localMatrix = m4.multiply(m4.translation(15, 0, 0), m4.yRotation(degToRad(event.target.value) + degToRad(90)));
     };
     document.getElementById("upLeft").onchange = function(event) {
         upLeftNode.localMatrix = m4.zRotation(degToRad(event.target.value));
     };
     document.getElementById("lowLeft").onchange = function(event) {
-        lowLeftNode.localMatrix = m4.yRotation(degToRad(event.target.value));
+        lowLeftNode.localMatrix = m4.zRotation(degToRad(event.target.value));
     };
     document.getElementById("upRight").onchange = function(event) {
         upRightNode.localMatrix = m4.zRotation(degToRad(event.target.value));
