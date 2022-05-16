@@ -57,7 +57,7 @@ void main() {
   FragColor.rgb *= light;
 }`
 
-var offset = 0;
+var animating = false;
 
 var Node = function() {
     this.children = [];
@@ -355,7 +355,6 @@ function main() {
         vertexArray: lightSphereVAO,
     }
 
-
     var objects = [
         spiderBodyNode, 
         r1Node, 
@@ -399,8 +398,14 @@ function main() {
         lightNode.drawInfo,
     ];
 
+    // Animating 
+    var neckAngle = 0;
+    document.getElementById("animate").onclick = function(_e) {
+        console.log(animating)
+        animating = !animating;
+    }
 
-    render();
+    requestAnimationFrame(render)
 
     function render() {
 
@@ -420,12 +425,17 @@ function main() {
             m4.perspective(degToRad(60), canvas.width / canvas.height, 1, 200);
 
         // Compute camera matrix using look at.
-        var cameraPosition = [-40, 50, 35];
+        var cameraPosition = [50, 50, 20];
         var target = [0, 0, 0];
         var up = [0, 1, 0];
         const cameraMatrix = m4.lookAt(cameraPosition, target, up);
         const viewMatrix = m4.inverse(cameraMatrix);
         const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+
+        if (animating) {
+            neckAngle += 1
+            neckNode.localMatrix = m4.zRotation(0.03 * Math.sin(degToRad(neckAngle)))
+        }
 
         bodyNode.updateWorldMatrix();
         spiderBodyNode.updateWorldMatrix();
@@ -444,6 +454,7 @@ function main() {
 
         twgl.drawObjectList(gl, objectsToDraw);
 
+        requestAnimationFrame(render)
     }
 
     function radToDeg(r) {
