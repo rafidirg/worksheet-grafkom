@@ -15,7 +15,7 @@ out vec3 v_surfaceToLight;
 
 void main() {
   // Multiply the position by the matrix.
-  gl_Position = u_worldViewProjection * a_position;
+  gl_Position = u_world * a_position;
 
   // orient the normals and pass to the fragment shader
   v_normal = mat3(u_worldInverseTranspose) * a_normal;
@@ -109,6 +109,11 @@ function main() {
     twgl.setAttributePrefix("a_")
     const programInfo = twgl.createProgramInfo(gl, [vs, fs]);
 
+    const uniforms = {
+        u_lightWorldPosition: [0, 25, 0],
+        u_color: [0.2, 1, 0.2, 1]
+    }
+
     // Create Buffer and VAO Spider
     var spiderBodyBufferInfo = twgl.createBufferInfoFromArrays(gl, spiderBodyArrays);
     var r1BufferInfo = twgl.createBufferInfoFromArrays(gl, r1Arrays);
@@ -132,8 +137,9 @@ function main() {
 
     // Create Node
     var spiderBodyNode = new Node();
-    spiderBodyNode.localMatrix = m4.translation(0, 0, 0);
+    spiderBodyNode.localMatrix = m4.translation(-5, 0, 0);
     spiderBodyNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: spiderBodyBufferInfo,
         vertexArray: spiderBodyVAO,
@@ -142,6 +148,7 @@ function main() {
     var r1Node = new Node();
     r1Node.localMatrix = m4.translation(0, 0, 0);
     r1Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: r1BufferInfo,
         vertexArray: r1VAO,
@@ -150,6 +157,7 @@ function main() {
     var r2Node = new Node();
     r2Node.localMatrix = m4.translation(0, 0, 0);
     r2Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: r2BufferInfo,
         vertexArray: r2VAO,
@@ -158,6 +166,7 @@ function main() {
     var r3Node = new Node();
     r3Node.localMatrix = m4.translation(0, 0, 0);
     r3Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: r3BufferInfo,
         vertexArray: r3VAO,
@@ -166,6 +175,7 @@ function main() {
     var r4Node = new Node();
     r4Node.localMatrix = m4.translation(0, 0, 0);
     r4Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: r4BufferInfo,
         vertexArray: r4VAO,
@@ -174,6 +184,7 @@ function main() {
     var l1Node = new Node();
     l1Node.localMatrix = m4.translation(0, 0, 0);
     l1Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: l1BufferInfo,
         vertexArray: l1VAO,
@@ -182,6 +193,7 @@ function main() {
     var l2Node = new Node();
     l2Node.localMatrix = m4.translation(0, 0, 0);
     l2Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: l2BufferInfo,
         vertexArray: l2VAO,
@@ -190,6 +202,7 @@ function main() {
     var l3Node = new Node();
     l3Node.localMatrix = m4.translation(0, 0, 0);
     l3Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: l3BufferInfo,
         vertexArray: l3VAO,
@@ -198,6 +211,7 @@ function main() {
     var l4Node = new Node();
     l4Node.localMatrix = m4.translation(0, 0, 0);
     l4Node.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: l4BufferInfo,
         vertexArray: l4VAO,
@@ -234,8 +248,9 @@ function main() {
     var headVAO = twgl.createVAOFromBufferInfo(gl, programInfo, headBufferInfo);
 
     var bodyNode = new Node();
-    bodyNode.localMatrix = m4.translation(0, 0, 0);
+    bodyNode.localMatrix = m4.multiply(m4.translation(15, 0, 0), m4.yRotation(degToRad(90)));
     bodyNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: bodyBufferInfo,
         vertexArray: bodyVAO,
@@ -244,6 +259,7 @@ function main() {
     var upLeftNode = new Node();
     upLeftNode.localMatrix = m4.translation(0, 0, 0);
     upLeftNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: upLeftBufferInfo,
         vertexArray: upLeftVAO,
@@ -252,6 +268,7 @@ function main() {
     var lowLeftNode = new Node();
     lowLeftNode.localMatrix = m4.translation(0, 0, 0);
     lowLeftNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: lowLeftBufferInfo,
         vertexArray: lowLeftVAO,
@@ -260,6 +277,7 @@ function main() {
     var upRightNode = new Node();
     upRightNode.localMatrix = m4.translation(0, 0, 0);
     upRightNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: upRightBufferInfo,
         vertexArray: upRightVAO,
@@ -268,6 +286,7 @@ function main() {
     var lowRightNode = new Node();
     lowRightNode.localMatrix = m4.translation(0, 0, 0);
     lowRightNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: lowRightBufferInfo,
         vertexArray: lowRightVAO,
@@ -276,6 +295,7 @@ function main() {
     var leftWingNode = new Node();
     leftWingNode.localMatrix = m4.translation(0, 0, 0);
     leftWingNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: leftWingBufferInfo,
         vertexArray: leftWingVAO,
@@ -284,6 +304,7 @@ function main() {
     var rightWingNode = new Node();
     rightWingNode.localMatrix = m4.translation(0, 0, 0);
     rightWingNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: rightWingBufferInfo,
         vertexArray: rightWingVAO,
@@ -292,6 +313,7 @@ function main() {
     var neckNode = new Node();
     neckNode.localMatrix = m4.translation(0, 0, 0);
     neckNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: neckBufferInfo,
         vertexArray: neckVAO,
@@ -300,6 +322,7 @@ function main() {
     var headNode = new Node();
     headNode.localMatrix = m4.translation(0, 0, 0);
     headNode.drawInfo = {
+        uniforms: {},
         programInfo: programInfo,
         bufferInfo: headBufferInfo,
         vertexArray: headVAO,
@@ -313,6 +336,25 @@ function main() {
     leftWingNode.setParent(bodyNode);
     neckNode.setParent(bodyNode);
     headNode.setParent(neckNode);
+
+    var lightSphereBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 2, 12, 6);
+    var lightSphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, lightSphereBufferInfo);
+
+    var lightNode = new Node();
+    lightNode.localMatrix = m4.translation(
+        uniforms.u_lightWorldPosition[0],
+        uniforms.u_lightWorldPosition[1],
+        uniforms.u_lightWorldPosition[2],
+        )
+    lightNode.drawInfo = {
+        uniforms: {
+            u_color: [1, 1, 0.2, 1],
+        },
+        programInfo: programInfo,
+        bufferInfo: lightSphereBufferInfo,
+        vertexArray: lightSphereVAO,
+    }
+
 
     var objects = [
         spiderBodyNode, 
@@ -333,6 +375,7 @@ function main() {
         rightWingNode,
         neckNode,
         headNode,
+        lightNode,
     ];
     var objectsToDraw = [
         spiderBodyNode.drawInfo, 
@@ -353,12 +396,9 @@ function main() {
         rightWingNode.drawInfo,
         neckNode.drawInfo,
         headNode.drawInfo,
+        lightNode.drawInfo,
     ];
 
-    const uniforms = {
-        u_lightWorldPosition: [10, 10, 10],
-        u_color: [0.2, 1, 0.2, 1]
-    }
 
     render();
 
@@ -380,16 +420,25 @@ function main() {
             m4.perspective(degToRad(60), canvas.width / canvas.height, 1, 200);
 
         // Compute camera matrix using look at.
-        var cameraPosition = [30, 30, 30];
+        var cameraPosition = [-40, 50, 35];
         var target = [0, 0, 0];
         var up = [0, 1, 0];
         const cameraMatrix = m4.lookAt(cameraPosition, target, up);
         const viewMatrix = m4.inverse(cameraMatrix);
         const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
-        
-        uniforms.u_world = m4.yRotation(0);
-        uniforms.u_worldViewProjection = m4.multiply(viewProjectionMatrix, uniforms.u_world);
-        uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(uniforms.u_world));
+
+        bodyNode.updateWorldMatrix();
+        spiderBodyNode.updateWorldMatrix();
+        lightNode.updateWorldMatrix();
+
+        objects.forEach(function(object) {
+            object.drawInfo.uniforms.u_world = 
+                m4.multiply(viewProjectionMatrix, object.worldMatrix);
+            object.drawInfo.uniforms.u_worldViewProjection = 
+                m4.multiply(viewProjectionMatrix, object.drawInfo.uniforms.u_world);
+            object.drawInfo.uniforms.u_worldInverseTranspose = 
+                m4.transpose(m4.inverse(object.drawInfo.uniforms.u_world))
+        });
 
         twgl.setUniforms(programInfo, uniforms);
 
