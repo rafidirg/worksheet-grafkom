@@ -57,7 +57,7 @@ void main() {
   FragColor.rgb *= light;
 }`
 
-var animating = false;
+
 
 var Node = function() {
     this.children = [];
@@ -111,7 +111,7 @@ function main() {
 
     const uniforms = {
         u_lightWorldPosition: [0, 25, 0],
-        u_color: [0.2, 1, 0.2, 1]
+        u_color: [0.5, 1, 0.5, 1]
     }
 
     // Create Buffer and VAO Spider
@@ -398,12 +398,24 @@ function main() {
         lightNode.drawInfo,
     ];
 
+    var cameraPosition = [0, 60, 40];
+    var target = [0, 20, 0];
+    var up = [0, 1, 0];
+
     // Animating 
-    var neckAngle = 0;
+    var animating = false;
+    var angle = 0;
     document.getElementById("animate").onclick = function(_e) {
-        console.log(animating)
         animating = !animating;
     }
+
+    // Camera Roll
+    var cameraRoll = false;
+    var camAngle = 0;
+    document.getElementById("camera").onclick = function(_e){
+        cameraRoll = !cameraRoll
+    }
+
 
     requestAnimationFrame(render)
 
@@ -424,18 +436,32 @@ function main() {
         const projectionMatrix = 
             m4.perspective(degToRad(60), canvas.width / canvas.height, 1, 200);
 
+        if (animating) {
+            angle += 1
+            neckNode.localMatrix = m4.zRotation(0.03 * Math.sin(degToRad(angle)))
+            leftWingNode.localMatrix = m4.xRotation(-0.03 * Math.sin(degToRad(angle)))
+            rightWingNode.localMatrix = m4.xRotation(0.03 * Math.sin(degToRad(angle)))
+
+            r1Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            r2Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            r3Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            r4Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            l1Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            l2Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            l3Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+            l4Node.localMatrix = m4.yRotation(0.05 * Math.sin(degToRad(angle)))
+        }
+        
+        if (cameraRoll) {
+            camAngle += 0.1
+            cameraPosition[0] = 40 * Math.sin(degToRad(camAngle))
+            cameraPosition[2] = 40 * Math.cos(degToRad(camAngle))
+        }
+
         // Compute camera matrix using look at.
-        var cameraPosition = [50, 50, 20];
-        var target = [0, 0, 0];
-        var up = [0, 1, 0];
         const cameraMatrix = m4.lookAt(cameraPosition, target, up);
         const viewMatrix = m4.inverse(cameraMatrix);
         const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
-
-        if (animating) {
-            neckAngle += 1
-            neckNode.localMatrix = m4.zRotation(0.03 * Math.sin(degToRad(neckAngle)))
-        }
 
         bodyNode.updateWorldMatrix();
         spiderBodyNode.updateWorldMatrix();
