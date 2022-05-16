@@ -337,7 +337,7 @@ function main() {
     neckNode.setParent(bodyNode);
     headNode.setParent(neckNode);
 
-    var lightSphereBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 2, 12, 6);
+    var lightSphereBufferInfo = flattenedPrimitives.createTruncatedConeBufferInfo(gl, 2, 0, 2, 4, 1, true, false);
     var lightSphereVAO = twgl.createVAOFromBufferInfo(gl, programInfo, lightSphereBufferInfo);
 
     var lightNode = new Node();
@@ -348,7 +348,7 @@ function main() {
         )
     lightNode.drawInfo = {
         uniforms: {
-            u_color: [1, 1, 0.2, 1],
+            u_color: [0.9, 0.9, 0.1, 1],
         },
         programInfo: programInfo,
         bufferInfo: lightSphereBufferInfo,
@@ -398,7 +398,7 @@ function main() {
         lightNode.drawInfo,
     ];
 
-    var cameraPosition = [0, 60, 40];
+    var cameraPosition = [0, 40, 40];
     var target = [0, 20, 0];
     var up = [0, 1, 0];
 
@@ -435,6 +435,12 @@ function main() {
         // Projection Matrix
         const projectionMatrix = 
             m4.perspective(degToRad(60), canvas.width / canvas.height, 1, 200);
+
+        lightNode.localMatrix = 
+            m4.multiply(
+                lightNode.localMatrix,
+                m4.yRotation(degToRad(0.1))
+            )
 
         if (animating) {
             angle += 1
