@@ -190,6 +190,8 @@ var armMaterial;
 var cameraMaterial;
 var roomMaterial;
 
+var objectDrawMode;
+
 function initBuffers() {
     //DEFINING CUBE
     cubeVertexPositionBuffer = gl.createBuffer();
@@ -849,7 +851,7 @@ function drawSpiderBody(shadow) {
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
     chooseTexture(6, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
 
@@ -859,7 +861,7 @@ function drawSpiderLeg(shadow) {
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
     chooseTexture(6, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
 
@@ -1688,6 +1690,11 @@ function initInputs() {
     }
     document.getElementById("fourthLeftSpiderRotationSlider").oninput = function() {
         fourthSpiderLeftLegAngle = document.getElementById("fourthLeftSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("draw-mode").onchange = function() {
+        var drawMode = document.getElementById("draw-mode").value;
+        if(drawMode === "shading") objectDrawMode = gl.TRIANGLES;
+        else objectDrawMode = gl.LINES;
     }
     document.getElementById("arm-material").onchange = function() {
         armMaterial = document.getElementById("arm-material").value;
