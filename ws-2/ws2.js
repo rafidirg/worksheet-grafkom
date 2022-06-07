@@ -57,6 +57,7 @@ void main() {
   FragColor.rgb *= light;
 }`
 
+// Change the array coord
 const upMatrix = m4.translation(0, -10, 0)
 for (var ii = 0; ii < upLeftLegArrays.position.length; ii += 3){
     var vector = 

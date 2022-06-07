@@ -485,6 +485,16 @@ function main() {
         vertexArray: lightSphereVAO,
     }
 
+    var planeBufferInfo = flattenedPrimitives.createPlaneBufferInfo(gl, 20, 20, 1, 1)
+    var planeVAO = twgl.createVAOFromBufferInfo(gl, programInfo, planeBufferInfo)
+    var planeNode = new Node();
+    planeNode.localMatrix = m4.translation(0, -5, 0)
+    planeNode.drawInfo = {
+        programInfo: programInfo,
+        bufferInfo: planeBufferInfo,
+        vertexArray: planeVAO,
+    }
+
     var objects = [
         spiderBodyNode, 
         r1Node, 
