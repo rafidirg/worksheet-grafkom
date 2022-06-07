@@ -629,6 +629,17 @@ var fourthCameraBodyNode; var fourthCameraBodyTranslation = 0; var fourthCameraB
 var lensCameraNode; var lensCameraTranslation = 0; var lensCameraDirection = 1;
 var shutterCameraNode; var shutterCameraTranslation = 0.45; var shutterCameraDirection = 1;
 
+var baseSpiderBodyNode; var baseSpiderAngle = 0;
+var firstSpiderRightLegNode; var firstSpiderRightLegAngle = 0; 
+var secondSpiderRightLegNode; var secondSpiderRightLegAngle = 0;
+var thirdSpiderRightLegNode; var thirdSpiderRightLegAngle = 0;
+var fourthSpiderRightLegNode; var fourthSpiderRightLegAngle = 0;
+var firstSpiderLeftLegNode; var firstSpiderLeftLegAngle = 0;
+var secondSpiderLeftLegNode; var secondSpiderLeftLegAngle = 0;
+var thirdSpiderLeftLegNode; var thirdSpiderLeftLegAngle = 0;
+var fourthSpiderLeftLegNode; var fourthSpiderLeftLegAngle = 0;
+var spiderLegDirection = 1;
+
 function drawLightSource(shadow) {
     mvPushMatrix();
     //item specific modifications
@@ -826,6 +837,33 @@ function drawShutterCamera(shadow) {
     mvPopMatrix(shadow);
 }
 
+/**
+ * 
+ * Functions to draw spider
+ * 
+ */
+
+function drawSpiderBody(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.5, 0.3, 1.5]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(6, shadow);
+    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawSpiderLeg(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.5, 0.2, 0.2]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(6, shadow);
+    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+
 
 function initObjectTree() {
     lightSourceNode = {"draw" : drawLightSource, "matrix" : mat4.identity(mat4.create())};
@@ -921,7 +959,58 @@ function initObjectTree() {
 
     shutterCameraNode = {"draw" : drawShutterCamera, "matrix" : mat4.identity(mat4.create())};
     mat4.translate(shutterCameraNode.matrix, [0.0, 0.35, shutterCameraTranslation]); //0.45 - 0.55
+
+    /**
+     * Make Spider Node
+     */
+    baseSpiderBodyNode = {draw: drawSpiderBody, matrix: mat4.identity(mat4.create())};
+    mat4.translate(baseSpiderBodyNode.matrix, [0, -4, 5]);
+    mat4.rotate(baseSpiderBodyNode.matrix, baseSpiderAngle, [0, 1, 0]);
+
+    firstSpiderRightLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(firstSpiderRightLegNode.matrix, [-0.5, -0.15, 1])
+    mat4.rotate(firstSpiderRightLegNode.matrix, firstSpiderRightLegAngle, [0, 1, 0])
+    mat4.translate(firstSpiderRightLegNode.matrix, [-0.5, 0, 0])
+
+    secondSpiderRightLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(secondSpiderRightLegNode.matrix, [-0.5, -0.15, 0.33])
+    mat4.rotate(secondSpiderRightLegNode.matrix, secondSpiderRightLegAngle, [0, 1, 0])
+    mat4.translate(secondSpiderRightLegNode.matrix, [-0.5, 0, 0])
     
+    thirdSpiderRightLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(thirdSpiderRightLegNode.matrix, [-0.5, -0.15, -0.33])
+    mat4.rotate(thirdSpiderRightLegNode.matrix, thirdSpiderRightLegAngle, [0, 1, 0])
+    mat4.translate(thirdSpiderRightLegNode.matrix, [-0.5, 0, 0])
+
+    fourthSpiderRightLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(fourthSpiderRightLegNode.matrix, [-0.5, -0.15, -1])
+    mat4.rotate(fourthSpiderRightLegNode.matrix, fourthSpiderRightLegAngle, [0, 1, 0])
+    mat4.translate(fourthSpiderRightLegNode.matrix, [-0.5, 0, 0])
+
+    firstSpiderLeftLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(firstSpiderLeftLegNode.matrix, [0.5, -0.15, 1])
+    mat4.rotate(firstSpiderLeftLegNode.matrix, firstSpiderLeftLegAngle, [0, 1, 0])
+    mat4.translate(firstSpiderLeftLegNode.matrix, [0.5, 0, 0])
+
+    secondSpiderLeftLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(secondSpiderLeftLegNode.matrix, [0.5, -0.15, 0.33])
+    mat4.rotate(secondSpiderLeftLegNode.matrix, secondSpiderLeftLegAngle, [0, 1, 0])
+    mat4.translate(secondSpiderLeftLegNode.matrix, [0.5, 0, 0])
+
+    thirdSpiderLeftLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(thirdSpiderLeftLegNode.matrix, [0.5, -0.15, -0.33])
+    mat4.rotate(thirdSpiderLeftLegNode.matrix, thirdSpiderLeftLegAngle, [0, 1, 0])
+    mat4.translate(thirdSpiderLeftLegNode.matrix, [0.5, 0, 0])
+
+    fourthSpiderLeftLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
+    mat4.translate(fourthSpiderLeftLegNode.matrix, [0.5, -0.15, -1])
+    mat4.rotate(fourthSpiderLeftLegNode.matrix, fourthSpiderLeftLegAngle, [0, 1, 0])
+    mat4.translate(fourthSpiderLeftLegNode.matrix, [0.5, 0, 0])
+
+    
+    /**
+     * Create Hiearchical Model
+     */
     baseArmNode.child = firstArmNode;
     firstArmNode.child = secondArmNode;
     secondArmNode.child = palmNode;
@@ -942,6 +1031,17 @@ function initObjectTree() {
     thirdCameraBodyNode.child = fourthCameraBodyNode;
     fourthCameraBodyNode.child = lensCameraNode;
     secondCameraBodyNode.sibling = shutterCameraNode;
+
+    baseCameraNode.sibling = baseSpiderBodyNode;
+    baseSpiderBodyNode.child = firstSpiderRightLegNode;
+    firstSpiderRightLegNode.sibling = secondSpiderRightLegNode;
+    secondSpiderRightLegNode.sibling = thirdSpiderRightLegNode;
+    thirdSpiderRightLegNode.sibling = fourthSpiderRightLegNode;
+    fourthSpiderRightLegNode.sibling = firstSpiderLeftLegNode;
+    firstSpiderLeftLegNode.sibling = secondSpiderLeftLegNode;
+    secondSpiderLeftLegNode.sibling = thirdSpiderLeftLegNode;
+    thirdSpiderLeftLegNode.sibling = fourthSpiderLeftLegNode;
+
 }
 
 function traverse(node, shadow) {
@@ -1384,6 +1484,50 @@ function animate() {
         if(shutterCameraTranslation < 0.45 && shutterCameraDirection == -1) shutterCameraDirection *= -1;
         if(shutterCameraTranslation > 0.55 &&  shutterCameraDirection == 1) shutterCameraDirection *= -1;
         document.getElementById("shutterCameraTranslationSlider").value = shutterCameraTranslation * 100;
+
+        baseSpiderAngle = (baseSpiderAngle + update)%(2*Math.PI);
+        document.getElementById("baseSpiderRotationSlider").value = baseSpiderAngle * 180 / (Math.PI);
+
+        firstSpiderRightLegAngle += 0.5*update*spiderLegDirection;
+        if(firstSpiderRightLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(firstSpiderRightLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("firstRightSpiderRotationSlider").value = firstSpiderRightLegAngle * 180 / (Math.PI);
+
+        secondSpiderRightLegAngle += 0.5*update*spiderLegDirection;
+        if(secondSpiderRightLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(secondSpiderRightLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("secondRightSpiderRotationSlider").value = secondSpiderRightLegAngle * 180 / (Math.PI);
+
+        thirdSpiderRightLegAngle += 0.5*update*spiderLegDirection;
+        if(thirdSpiderRightLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(thirdSpiderRightLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("thirdRightSpiderRotationSlider").value = thirdSpiderRightLegAngle * 180 / (Math.PI);
+
+        fourthSpiderRightLegAngle += 0.5*update*spiderLegDirection;
+        if(fourthSpiderRightLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(fourthSpiderRightLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("fourthRightSpiderRotationSlider").value = fourthSpiderRightLegAngle * 180 / (Math.PI);
+
+        firstSpiderLeftLegAngle += 0.5*update*spiderLegDirection;
+        if(firstSpiderLeftLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(firstSpiderLeftLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("firstLeftSpiderRotationSlider").value = firstSpiderLeftLegAngle * 180 / (Math.PI);
+
+        secondSpiderLeftLegAngle += 0.5*update*spiderLegDirection;
+        if(secondSpiderLeftLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(secondSpiderLeftLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("secondLeftSpiderRotationSlider").value = secondSpiderLeftLegAngle * 180 / (Math.PI);
+
+        thirdSpiderLeftLegAngle += 0.5*update*spiderLegDirection;
+        if(thirdSpiderLeftLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(thirdSpiderLeftLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("thirdLeftSpiderRotationSlider").value = thirdSpiderLeftLegAngle * 180 / (Math.PI);
+
+        fourthSpiderLeftLegAngle += 0.5*update*spiderLegDirection;
+        if(fourthSpiderLeftLegAngle < -Math.PI/6 && spiderLegDirection == -1) spiderLegDirection *= -1;
+        if(fourthSpiderLeftLegAngle > Math.PI/6 && spiderLegDirection == 1) spiderLegDirection *= -1;
+        document.getElementById("fourthLeftSpiderRotationSlider").value = fourthSpiderLeftLegAngle * 180 / (Math.PI);
+
     }
     initObjectTree();
 }
@@ -1422,6 +1566,15 @@ function initInputs() {
             document.getElementById("fourthCameraBodyTranslationSlider").disabled = true;
             document.getElementById("lensCameraTranslationSlider").disabled = true;
             document.getElementById("shutterCameraTranslationSlider").disabled = true;
+            document.getElementById("baseSpiderRotationSlider").disabled = true;
+            document.getElementById("firstRightSpiderRotationSlider").disabled = true;
+            document.getElementById("secondRightSpiderRotationSlider").disabled = true;
+            document.getElementById("thirdRightSpiderRotationSlider").disabled = true;
+            document.getElementById("fourthRightSpiderRotationSlider").disabled = true;
+            document.getElementById("firstLeftSpiderRotationSlider").disabled = true;
+            document.getElementById("secondLeftSpiderRotationSlider").disabled = true;
+            document.getElementById("thirdLeftSpiderRotationSlider").disabled = true;
+            document.getElementById("fourthLeftSpiderRotationSlider").disabled = true;
         } else {
             document.getElementById("baseArmRotationSlider").disabled = false;
             document.getElementById("secondArmRotationSlider").disabled = false;
@@ -1441,6 +1594,15 @@ function initInputs() {
             document.getElementById("fourthCameraBodyTranslationSlider").disabled = false;
             document.getElementById("lensCameraTranslationSlider").disabled = false;
             document.getElementById("shutterCameraTranslationSlider").disabled = false;
+            document.getElementById("baseSpiderRotationSlider").disabled = false;
+            document.getElementById("firstRightSpiderRotationSlider").disabled = false;
+            document.getElementById("secondRightSpiderRotationSlider").disabled = false;
+            document.getElementById("thirdRightSpiderRotationSlider").disabled = false;
+            document.getElementById("fourthRightSpiderRotationSlider").disabled = false;
+            document.getElementById("firstLeftSpiderRotationSlider").disabled = false;
+            document.getElementById("secondLeftSpiderRotationSlider").disabled = false;
+            document.getElementById("thirdLeftSpiderRotationSlider").disabled = false;
+            document.getElementById("fourthLeftSpiderRotationSlider").disabled = false;
         }
     };
     document.getElementById("baseArmRotationSlider").oninput = function() {
@@ -1499,6 +1661,33 @@ function initInputs() {
     }
     document.getElementById("shutterCameraTranslationSlider").oninput = function() {
         shutterCameraTranslation = document.getElementById("shutterCameraTranslationSlider").value / 100;
+    }
+    document.getElementById("baseSpiderRotationSlider").oninput = function() {
+        baseSpiderAngle = document.getElementById("baseSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("firstRightSpiderRotationSlider").oninput = function() {
+        firstSpiderRightLegAngle = document.getElementById("firstRightSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("secondRightSpiderRotationSlider").oninput = function() {
+        secondSpiderRightLegAngle = document.getElementById("secondRightSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("thirdRightSpiderRotationSlider").oninput = function() {
+        thirdSpiderRightLegAngle = document.getElementById("thirdRightSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("fourthRightSpiderRotationSlider").oninput = function() {
+        fourthSpiderRightLegAngle = document.getElementById("fourthRightSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("firstLeftSpiderRotationSlider").oninput = function() {
+        firstSpiderLeftLegAngle = document.getElementById("firstLeftSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("secondLeftSpiderRotationSlider").oninput = function() {
+        secondSpiderLeftLegAngle = document.getElementById("secondLeftSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("thirdLeftSpiderRotationSlider").oninput = function() {
+        thirdSpiderLeftLegAngle = document.getElementById("thirdLeftSpiderRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("fourthLeftSpiderRotationSlider").oninput = function() {
+        fourthSpiderLeftLegAngle = document.getElementById("fourthLeftSpiderRotationSlider").value * Math.PI / 180;
     }
     document.getElementById("arm-material").onchange = function() {
         armMaterial = document.getElementById("arm-material").value;
