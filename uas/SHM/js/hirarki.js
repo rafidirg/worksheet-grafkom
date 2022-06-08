@@ -609,28 +609,6 @@ var animating = 1;
 var lightSourceNode;
 var roomNode;
 
-var baseArmNode; var baseArmAngle = 0;
-var firstArmNode;
-var secondArmNode; var secondArmAngle = 0; var secondArmDirection = 1;
-var palmNode; var palmAngle = 0;
-var firstFingerBaseNode; var firstFingerBaseAngle = 0; var firstFingerBaseDirection = 1;
-var firstFingerTopNode; var firstFingerTopAngle = 0; var firstFingerTopDirection = 1;
-var secondFingerBaseNode; var secondFingerBaseAngle = 0; var secondFingerBaseDirection = 1;
-var secondFingerTopNode; var secondFingerTopAngle = 0; var secondFingerTopDirection = 1;
-var thirdFingerBaseNode; var thirdFingerBaseAngle = 0; var thirdFingerBaseDirection = 1;
-var thirdFingerTopNode; var thirdFingerTopAngle = 0; var thirdFingerTopDirection = 1;
-
-var baseCameraNode; var baseCameraAngle = 0;
-var firstCameraLegNode; var firstCameraLegAngle = 0; var firstCameraLegDirection = 1;
-var secondCameraLegNode; var secondCameraLegAngle = 0; var secondCameraLegDirection = 1;
-var thirdCameraLegNode; var thirdCameraLegAngle = 0; var thirdCameraLegDirection = 1;
-var firstCameraBodyNode;
-var secondCameraBodyNode; var secondCameraBodyTranslation = 0; var secondCameraBodyDirection = 1;
-var thirdCameraBodyNode; var thirdCameraBodyTranslation = 0; var thirdCameraBodyDirection = 1;
-var fourthCameraBodyNode; var fourthCameraBodyTranslation = 0; var fourthCameraBodyDirection = 1;
-var lensCameraNode; var lensCameraTranslation = 0; var lensCameraDirection = 1;
-var shutterCameraNode; var shutterCameraTranslation = 0.45; var shutterCameraDirection = 1;
-
 var baseSpiderBodyNode; var baseSpiderAngle = 0;
 var firstSpiderRightLegNode; var firstSpiderRightLegAngle = 0; 
 var secondSpiderRightLegNode; var secondSpiderRightLegAngle = 0;
@@ -663,178 +641,6 @@ function drawRoom(shadow) {
     setMatrixUniforms(shadow);
     chooseTexture(1, shadow);
     setupMaterial(roomMaterial, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawArmBase(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [1.0, 0.25, 1.0]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(3, shadow);
-    setupMaterial(armMaterial, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawFirstArm(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.5, 2.0, 0.5]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawSecondArm(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.5, 2.0, 0.5]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawPalm(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.75, 0.25, 0.75]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(0, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawFingerBase(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.15, 0.3, 0.15]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(0, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawFingerTop(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.15, 0.3, 0.15]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(0, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-
-function drawCameraBase(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.75, 0.25, 0.75]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(6, shadow);
-    setupMaterial(cameraMaterial, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawCameraLeg(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.15, 2.0, 0.15]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(6, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawCameraFirstBody(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.2, 0.5, 0.55]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(7, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawCameraSecondBody(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.1, 0.45, 0.5]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(7, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawCameraThirdBody(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.1, 0.4, 0.45]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(7, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawCameraFourthBody(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.1, 0.35, 0.4]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(7, shadow);
-    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawLensCamera(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.3, 0.2, 0.3]);
-    //mat4.scale(mvMatrix, [0.5, 0.5, 0.5]);
-    //draw
-    setupToDrawCylinder(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(8, shadow);
-    gl.drawElements(gl.TRIANGLES, cylinderVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    mvPopMatrix(shadow);
-}
-
-function drawShutterCamera(shadow) {
-    mvPushMatrix();
-    //item specific modifications
-    mat4.scale(mvMatrix, [0.15, 0.1, 0.1]);
-    //draw
-    setupToDrawCube(shadow);
-    setMatrixUniforms(shadow);
-    chooseTexture(6, shadow);
     gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -873,100 +679,11 @@ function initObjectTree() {
     
     roomNode = {"draw" : drawRoom, "matrix" : mat4.identity(mat4.create())};
     
-    //ARM
-    
-    baseArmNode = {"draw" : drawArmBase, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(baseArmNode.matrix, [-5.0, -4.5, 0.0]);
-    mat4.rotate(baseArmNode.matrix, baseArmAngle, [0.0, 1.0, 0.0]);
-    
-    firstArmNode = {"draw" : drawFirstArm, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(firstArmNode.matrix, [0.0, 2.25, 0.0]);
-    
-    secondArmNode = {"draw" : drawSecondArm, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(secondArmNode.matrix, [0.0, 1.5, 0.0]);
-    mat4.rotate(secondArmNode.matrix, secondArmAngle, [1.0, 0.0, 0.0]);
-    mat4.translate(secondArmNode.matrix, [0.0, 2.0, 0.0]);
-    
-    palmNode = {"draw" : drawPalm, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(palmNode.matrix, [0.0, 2.0, 0.0]);
-    mat4.rotate(palmNode.matrix, palmAngle, [0.0, 1.0, 0.0]);
-    
-    firstFingerBaseNode = {"draw" : drawFingerBase, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(firstFingerBaseNode.matrix, [0.45, 0.25, 0.45]);
-    mat4.rotate(firstFingerBaseNode.matrix, firstFingerBaseAngle, [-1.0, 0.0, 1.0]);
-    mat4.translate(firstFingerBaseNode.matrix, [0.0, 0.3, 0.0]);
-    
-    firstFingerTopNode = {"draw" : drawFingerTop, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(firstFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    mat4.rotate(firstFingerTopNode.matrix, firstFingerTopAngle, [-1.0, 0.0, 1.0]);
-    mat4.translate(firstFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    
-    secondFingerBaseNode = {"draw" : drawFingerBase, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(secondFingerBaseNode.matrix, [-0.45, 0.25, 0.45]);
-    mat4.rotate(secondFingerBaseNode.matrix, secondFingerBaseAngle, [-1.0, 0.0, -1.0]);
-    mat4.translate(secondFingerBaseNode.matrix, [0.0, 0.3, 0.0]);
-    
-    secondFingerTopNode = {"draw" : drawFingerTop, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(secondFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    mat4.rotate(secondFingerTopNode.matrix, secondFingerTopAngle, [-1.0, 0.0, -1.0]);
-    mat4.translate(secondFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    
-    thirdFingerBaseNode = {"draw" : drawFingerBase, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(thirdFingerBaseNode.matrix, [0.0, 0.25, -0.45]);
-    mat4.rotate(thirdFingerBaseNode.matrix, thirdFingerBaseAngle, [1.0, 0.0, 0.0]);
-    mat4.translate(thirdFingerBaseNode.matrix, [0.0, 0.3, 0.0]);
-    
-    
-    thirdFingerTopNode = {"draw" : drawFingerTop, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(thirdFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    mat4.rotate(thirdFingerTopNode.matrix, thirdFingerTopAngle, [1.0, 0.0, 0.0]);
-    mat4.translate(thirdFingerTopNode.matrix, [0.0, 0.3, 0.0]);
-    
-    //CAMERA
-    
-    baseCameraNode = {"draw" : drawCameraBase, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(baseCameraNode.matrix, [5.0, 1.0, 0.0]);
-    mat4.rotate(baseCameraNode.matrix, baseCameraAngle, [0.0, 1.0, 0.0]);
-    
-    firstCameraLegNode = {"draw" : drawCameraLeg, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(firstCameraLegNode.matrix, [0.45, -0.25, 0.45]);
-    mat4.rotate(firstCameraLegNode.matrix, firstCameraLegAngle, [-1.0, 0.0, 1.0]);
-    mat4.translate(firstCameraLegNode.matrix, [0.0, -2.0, 0.0]);
-    
-    secondCameraLegNode = {"draw" : drawCameraLeg, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(secondCameraLegNode.matrix, [-0.45, -0.25, 0.45]);
-    mat4.rotate(secondCameraLegNode.matrix, secondCameraLegAngle, [-1.0, 0.0, -1.0]);
-    mat4.translate(secondCameraLegNode.matrix, [0.0, -2.0, 0.0]);
-    
-    thirdCameraLegNode = {"draw" : drawCameraLeg, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(thirdCameraLegNode.matrix, [0.0, -0.25, -0.45]);
-    mat4.rotate(thirdCameraLegNode.matrix, thirdCameraLegAngle, [1.0, 0.0, 0.0]);
-    mat4.translate(thirdCameraLegNode.matrix, [0.0, -2.0, 0.0]);
-
-    firstCameraBodyNode = {"draw" : drawCameraFirstBody, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(firstCameraBodyNode.matrix, [-0.2, 0.75, 0.0]);
-
-    secondCameraBodyNode = {"draw" : drawCameraSecondBody, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(secondCameraBodyNode.matrix, [secondCameraBodyTranslation, -0.05, 0.0]); //0.3
-
-    thirdCameraBodyNode = {"draw" : drawCameraThirdBody, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(thirdCameraBodyNode.matrix, [thirdCameraBodyTranslation, 0.0, 0.0]); //0.2
-
-    fourthCameraBodyNode = {"draw" : drawCameraFourthBody, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(fourthCameraBodyNode.matrix, [fourthCameraBodyTranslation, 0.0, 0.0]); //0.2
-
-    lensCameraNode = {"draw" : drawLensCamera, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(lensCameraNode.matrix, [lensCameraTranslation, 0.0, 0.0]); //0.25
-    mat4.rotate(lensCameraNode.matrix, Math.PI/2, [0.0, 0.0, 1.0]);
-
-    shutterCameraNode = {"draw" : drawShutterCamera, "matrix" : mat4.identity(mat4.create())};
-    mat4.translate(shutterCameraNode.matrix, [0.0, 0.35, shutterCameraTranslation]); //0.45 - 0.55
-
     /**
      * Make Spider Node
      */
     baseSpiderBodyNode = {draw: drawSpiderBody, matrix: mat4.identity(mat4.create())};
-    mat4.translate(baseSpiderBodyNode.matrix, [0, -4, 5]);
+    mat4.translate(baseSpiderBodyNode.matrix, [-4, -4, 5]);
     mat4.rotate(baseSpiderBodyNode.matrix, baseSpiderAngle, [0, 1, 0]);
 
     firstSpiderRightLegNode = {draw: drawSpiderLeg, matrix: mat4.identity(mat4.create())};
@@ -1013,28 +730,6 @@ function initObjectTree() {
     /**
      * Create Hiearchical Model
      */
-    baseArmNode.child = firstArmNode;
-    firstArmNode.child = secondArmNode;
-    secondArmNode.child = palmNode;
-    palmNode.child = firstFingerBaseNode;
-    firstFingerBaseNode.child = firstFingerTopNode;
-    firstFingerBaseNode.sibling = secondFingerBaseNode;
-    secondFingerBaseNode.child = secondFingerTopNode;
-    secondFingerBaseNode.sibling = thirdFingerBaseNode;
-    thirdFingerBaseNode.child = thirdFingerTopNode;
-    
-    baseArmNode.sibling = baseCameraNode;
-    baseCameraNode.child = firstCameraLegNode;
-    firstCameraLegNode.sibling = secondCameraLegNode;
-    secondCameraLegNode.sibling = thirdCameraLegNode;
-    thirdCameraLegNode.sibling = firstCameraBodyNode;
-    firstCameraBodyNode.child = secondCameraBodyNode;
-    secondCameraBodyNode.child = thirdCameraBodyNode;
-    thirdCameraBodyNode.child = fourthCameraBodyNode;
-    fourthCameraBodyNode.child = lensCameraNode;
-    secondCameraBodyNode.sibling = shutterCameraNode;
-
-    baseCameraNode.sibling = baseSpiderBodyNode;
     baseSpiderBodyNode.child = firstSpiderRightLegNode;
     firstSpiderRightLegNode.sibling = secondSpiderRightLegNode;
     secondSpiderRightLegNode.sibling = thirdSpiderRightLegNode;
@@ -1334,7 +1029,7 @@ function drawShadowMap(side) {
     mat4.identity(mvMatrix);
     traverse(roomNode, true);
     mat4.translate(mvMatrix, [0, 0, -20]);
-    traverse(baseArmNode, true);
+    traverse(baseSpiderBodyNode, true);
     
     gl.bindFramebuffer(gl.FRAMEBUFFER,  null);
 }
@@ -1392,7 +1087,7 @@ function drawScene() {
     traverse(roomNode, false);
     
     mat4.translate(mvMatrix, [0, 0, -20]);
-    traverse(baseArmNode, false);
+    traverse(baseSpiderBodyNode, false);
     
 }
 
@@ -1400,92 +1095,6 @@ function animate() {
     if (animating) {
         //var update = (0.05 * Math.PI * (timeNow - lastTime)/ 180); //use elapsed time, which is faulty on changing tabs
         var update = (0.05 * Math.PI * 10/ 180);
-        
-        //ARM
-        baseArmAngle = (baseArmAngle + update)%(2*Math.PI);
-        document.getElementById("baseArmRotationSlider").value = baseArmAngle * 180 / (Math.PI);
-        
-        secondArmAngle += update*secondArmDirection;
-        if(secondArmAngle < 0 && secondArmDirection == -1) secondArmDirection *= -1;
-        if(secondArmAngle > Math.PI/2 && secondArmDirection == 1) secondArmDirection *= -1;
-        document.getElementById("secondArmRotationSlider").value = secondArmAngle * 180 / (Math.PI);
-        
-        palmAngle = (palmAngle + update)%(2*Math.PI);
-        document.getElementById("palmRotationSlider").value = palmAngle * 180 / (Math.PI);
-        
-        firstFingerBaseAngle += update*firstFingerBaseDirection;
-        if(firstFingerBaseAngle < -Math.PI/4 && firstFingerBaseDirection == -1) firstFingerBaseDirection *= -1;
-        if(firstFingerBaseAngle > Math.PI/8 && firstFingerBaseDirection == 1) firstFingerBaseDirection *= -1;
-        document.getElementById("firstFingerBaseRotationSlider").value = firstFingerBaseAngle * 180 / (Math.PI);
-        
-        firstFingerTopAngle += update*firstFingerTopDirection;
-        if(firstFingerTopAngle < 0 && firstFingerTopDirection == -1)firstFingerTopDirection *= -1;
-        if(firstFingerTopAngle > Math.PI/8 && firstFingerTopDirection == 1) firstFingerTopDirection *= -1;
-        document.getElementById("firstFingerTopRotationSlider").value = firstFingerTopAngle * 180 / (Math.PI);
-        
-        secondFingerBaseAngle += update*secondFingerBaseDirection;
-        if(secondFingerBaseAngle < -Math.PI/4 && secondFingerBaseDirection == -1) secondFingerBaseDirection *= -1;
-        if(secondFingerBaseAngle > Math.PI/8 && secondFingerBaseDirection == 1) secondFingerBaseDirection *= -1;
-        document.getElementById("secondFingerBaseRotationSlider").value = secondFingerBaseAngle * 180 / (Math.PI);
-        
-        secondFingerTopAngle += update*secondFingerTopDirection;
-        if(secondFingerTopAngle < 0 && secondFingerTopDirection == -1) secondFingerTopDirection *= -1;
-        if(secondFingerTopAngle > Math.PI/8 && secondFingerTopDirection == 1) secondFingerTopDirection *= -1;
-        document.getElementById("secondFingerTopRotationSlider").value = secondFingerTopAngle * 180 / (Math.PI);
-        
-        thirdFingerBaseAngle += update*thirdFingerBaseDirection;
-        if(thirdFingerBaseAngle < -Math.PI/4 && thirdFingerBaseDirection == -1) thirdFingerBaseDirection *= -1;
-        if(thirdFingerBaseAngle > Math.PI/8 && thirdFingerBaseDirection == 1) thirdFingerBaseDirection *= -1;
-        document.getElementById("thirdFingerBaseRotationSlider").value = thirdFingerBaseAngle * 180 / (Math.PI);
-        
-        thirdFingerTopAngle += update*thirdFingerTopDirection;
-        if(thirdFingerTopAngle < 0 && thirdFingerTopDirection == -1) thirdFingerTopDirection *= -1;
-        if(thirdFingerTopAngle > Math.PI/8 && thirdFingerTopDirection == 1) thirdFingerTopDirection *= -1;
-        document.getElementById("thirdFingerTopRotationSlider").value = thirdFingerTopAngle * 180 / (Math.PI);
-        
-        //CAMERA
-        baseCameraAngle = (baseCameraAngle + update)%(2*Math.PI);
-        document.getElementById("baseCameraRotationSlider").value = baseCameraAngle * 180 / (Math.PI);
-        
-        firstCameraLegAngle += update*firstCameraLegDirection;
-        if(firstCameraLegAngle < 0 && firstCameraLegDirection == -1) firstCameraLegDirection *= -1;
-        if(firstCameraLegAngle > Math.PI/4 && firstCameraLegDirection == 1) firstCameraLegDirection *= -1;
-        document.getElementById("firstCameraLegRotationSlider").value = firstCameraLegAngle * 180 / (Math.PI);
-        
-        secondCameraLegAngle += update*secondCameraLegDirection;
-        if(secondCameraLegAngle < 0 && secondCameraLegDirection == -1) secondCameraLegDirection *= -1;
-        if(secondCameraLegAngle > Math.PI/4 && secondCameraLegDirection == 1) secondCameraLegDirection *= -1;
-        document.getElementById("secondCameraLegRotationSlider").value = secondCameraLegAngle * 180 / (Math.PI);
-        
-        thirdCameraLegAngle += update*thirdCameraLegDirection;
-        if(thirdCameraLegAngle < 0 && thirdCameraLegDirection == -1) thirdCameraLegDirection *= -1;
-        if(thirdCameraLegAngle > Math.PI/4 && thirdCameraLegDirection == 1)  thirdCameraLegDirection *= -1;
-        document.getElementById("thirdCameraLegRotationSlider").value = thirdCameraLegAngle * 180 / (Math.PI);
-        
-        secondCameraBodyTranslation += 0.5*update*secondCameraBodyDirection;
-        if(secondCameraBodyTranslation < 0.05 && secondCameraBodyDirection == -1) secondCameraBodyDirection *= -1;
-        if(secondCameraBodyTranslation > 0.3 && secondCameraBodyDirection == 1) secondCameraBodyDirection *= -1;
-        document.getElementById("secondCameraBodyTranslationSlider").value = secondCameraBodyTranslation * 100;
-        
-        thirdCameraBodyTranslation += 0.5*update*thirdCameraBodyDirection;
-        if(thirdCameraBodyTranslation < 0.05 && thirdCameraBodyDirection == -1) thirdCameraBodyDirection *= -1;
-        if(thirdCameraBodyTranslation > 0.2 &&  thirdCameraBodyDirection == 1) thirdCameraBodyDirection *= -1;
-        document.getElementById("thirdCameraBodyTranslationSlider").value = thirdCameraBodyTranslation * 100;
-        
-        fourthCameraBodyTranslation += 0.5*update*fourthCameraBodyDirection;
-        if(fourthCameraBodyTranslation < 0.05 && fourthCameraBodyDirection == -1) fourthCameraBodyDirection *= -1;
-        if(fourthCameraBodyTranslation > 0.2 &&  fourthCameraBodyDirection == 1) fourthCameraBodyDirection *= -1;
-        document.getElementById("fourthCameraBodyTranslationSlider").value = fourthCameraBodyTranslation * 100;
-        
-        lensCameraTranslation += 0.5*update*lensCameraDirection;
-        if(lensCameraTranslation < 0.1 && lensCameraDirection == -1) lensCameraDirection *= -1;
-        if(lensCameraTranslation > 0.25 &&  lensCameraDirection == 1) lensCameraDirection *= -1;
-        document.getElementById("lensCameraTranslationSlider").value = lensCameraTranslation * 100;
-        
-        shutterCameraTranslation += 0.5*update*shutterCameraDirection;
-        if(shutterCameraTranslation < 0.45 && shutterCameraDirection == -1) shutterCameraDirection *= -1;
-        if(shutterCameraTranslation > 0.55 &&  shutterCameraDirection == 1) shutterCameraDirection *= -1;
-        document.getElementById("shutterCameraTranslationSlider").value = shutterCameraTranslation * 100;
 
         baseSpiderAngle = (baseSpiderAngle + update)%(2*Math.PI);
         document.getElementById("baseSpiderRotationSlider").value = baseSpiderAngle * 180 / (Math.PI);
@@ -1550,24 +1159,6 @@ function initInputs() {
     document.getElementById("animation").onchange = function() {
         animating ^= 1;
         if(animating) {
-            document.getElementById("baseArmRotationSlider").disabled = true;
-            document.getElementById("secondArmRotationSlider").disabled = true;
-            document.getElementById("palmRotationSlider").disabled = true;
-            document.getElementById("firstFingerBaseRotationSlider").disabled = true;
-            document.getElementById("firstFingerTopRotationSlider").disabled = true;
-            document.getElementById("secondFingerBaseRotationSlider").disabled = true;
-            document.getElementById("secondFingerTopRotationSlider").disabled = true;
-            document.getElementById("thirdFingerBaseRotationSlider").disabled = true;
-            document.getElementById("thirdFingerTopRotationSlider").disabled = true;
-            document.getElementById("baseCameraRotationSlider").disabled = true;
-            document.getElementById("firstCameraLegRotationSlider").disabled = true;
-            document.getElementById("secondCameraLegRotationSlider").disabled = true;
-            document.getElementById("thirdCameraLegRotationSlider").disabled = true;
-            document.getElementById("secondCameraBodyTranslationSlider").disabled = true;
-            document.getElementById("thirdCameraBodyTranslationSlider").disabled = true;
-            document.getElementById("fourthCameraBodyTranslationSlider").disabled = true;
-            document.getElementById("lensCameraTranslationSlider").disabled = true;
-            document.getElementById("shutterCameraTranslationSlider").disabled = true;
             document.getElementById("baseSpiderRotationSlider").disabled = true;
             document.getElementById("firstRightSpiderRotationSlider").disabled = true;
             document.getElementById("secondRightSpiderRotationSlider").disabled = true;
@@ -1578,24 +1169,6 @@ function initInputs() {
             document.getElementById("thirdLeftSpiderRotationSlider").disabled = true;
             document.getElementById("fourthLeftSpiderRotationSlider").disabled = true;
         } else {
-            document.getElementById("baseArmRotationSlider").disabled = false;
-            document.getElementById("secondArmRotationSlider").disabled = false;
-            document.getElementById("palmRotationSlider").disabled = false;
-            document.getElementById("firstFingerBaseRotationSlider").disabled = false;
-            document.getElementById("firstFingerTopRotationSlider").disabled = false;
-            document.getElementById("secondFingerBaseRotationSlider").disabled = false;
-            document.getElementById("secondFingerTopRotationSlider").disabled = false;
-            document.getElementById("thirdFingerBaseRotationSlider").disabled = false;
-            document.getElementById("thirdFingerTopRotationSlider").disabled = false;
-            document.getElementById("baseCameraRotationSlider").disabled = false;
-            document.getElementById("firstCameraLegRotationSlider").disabled = false;
-            document.getElementById("secondCameraLegRotationSlider").disabled = false;
-            document.getElementById("thirdCameraLegRotationSlider").disabled = false;
-            document.getElementById("secondCameraBodyTranslationSlider").disabled = false;
-            document.getElementById("thirdCameraBodyTranslationSlider").disabled = false;
-            document.getElementById("fourthCameraBodyTranslationSlider").disabled = false;
-            document.getElementById("lensCameraTranslationSlider").disabled = false;
-            document.getElementById("shutterCameraTranslationSlider").disabled = false;
             document.getElementById("baseSpiderRotationSlider").disabled = false;
             document.getElementById("firstRightSpiderRotationSlider").disabled = false;
             document.getElementById("secondRightSpiderRotationSlider").disabled = false;
@@ -1607,63 +1180,6 @@ function initInputs() {
             document.getElementById("fourthLeftSpiderRotationSlider").disabled = false;
         }
     };
-    document.getElementById("baseArmRotationSlider").oninput = function() {
-        baseArmAngle = document.getElementById("baseArmRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondArmRotationSlider").oninput = function() {
-        secondArmAngle = document.getElementById("secondArmRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("palmRotationSlider").oninput = function() {
-        palmAngle = document.getElementById("palmRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("firstFingerBaseRotationSlider").oninput = function() {
-        firstFingerBaseAngle = document.getElementById("firstFingerBaseRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("firstFingerTopRotationSlider").oninput = function() {
-        firstFingerTopAngle = document.getElementById("firstFingerTopRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondFingerBaseRotationSlider").oninput = function() {
-        secondFingerBaseAngle = document.getElementById("secondFingerBaseRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondFingerTopRotationSlider").oninput = function() {
-        secondFingerTopAngle = document.getElementById("secondFingerTopRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("thirdFingerBaseRotationSlider").oninput = function() {
-        thirdFingerBaseAngle = document.getElementById("thirdFingerBaseRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("thirdFingerTopRotationSlider").oninput = function() {
-        thirdFingerTopAngle = document.getElementById("thirdFingerTopRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("baseCameraRotationSlider").oninput = function() {
-        baseCameraAngle = document.getElementById("baseCameraRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("firstCameraLegRotationSlider").oninput = function() {
-        firstCameraLegAngle = document.getElementById("firstCameraLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondCameraLegRotationSlider").oninput = function() {
-        secondCameraLegAngle = document.getElementById("secondCameraLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("thirdCameraLegRotationSlider").oninput = function() {
-        thirdCameraLegAngle = document.getElementById("thirdCameraLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondCameraBodyTranslationSlider").oninput = function() {
-        thirdCameraLegAngle = document.getElementById("thirdCameraLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("secondCameraBodyTranslationSlider").oninput = function() {
-        secondCameraBodyTranslation = document.getElementById("secondCameraBodyTranslationSlider").value / 100;
-    }
-    document.getElementById("thirdCameraBodyTranslationSlider").oninput = function() {
-        thirdCameraBodyTranslation = document.getElementById("thirdCameraBodyTranslationSlider").value / 100;
-    }
-    document.getElementById("fourthCameraBodyTranslationSlider").oninput = function() {
-        fourthCameraBodyTranslation = document.getElementById("fourthCameraBodyTranslationSlider").value / 100;
-    }
-    document.getElementById("lensCameraTranslationSlider").oninput = function() {
-        lensCameraTranslation = document.getElementById("lensCameraTranslationSlider").value / 100;
-    }
-    document.getElementById("shutterCameraTranslationSlider").oninput = function() {
-        shutterCameraTranslation = document.getElementById("shutterCameraTranslationSlider").value / 100;
-    }
     document.getElementById("baseSpiderRotationSlider").oninput = function() {
         baseSpiderAngle = document.getElementById("baseSpiderRotationSlider").value * Math.PI / 180;
     }
