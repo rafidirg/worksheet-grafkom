@@ -680,7 +680,7 @@ function drawRoom(shadow) {
     //draw
     setupToDrawCubeInsides(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(1, shadow);
+    chooseTexture(8, shadow);
     setupMaterial(roomMaterial, shadow);
     gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
@@ -1941,7 +1941,7 @@ function initTexture() {
     image8.onload = function () {
         configureTexture(image8, gl.TEXTURE8);
     }
-    image8.src = "img/glass.jpg"
+    image8.src = "img/wall3.jpg"
 }
 
 function webGLStart() {
