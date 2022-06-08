@@ -1,12 +1,13 @@
 <html>
-    <head>
-        <title>Sample Hierarchical Modelling with lighting, texture and shadow</title>
-        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-        <script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
-        <script type="text/javascript" src="js/webgl-utils.js"></script>
+<head>
+    <title>Sample Hierarchical Modelling with lighting, texture and shadow</title>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-        <script id="vs-shadowmap" type="x-shader/x-vertex">#version 300 es
+    <script type="text/javascript" src="js/glMatrix-0.9.5.min.js"></script>
+    <script type="text/javascript" src="js/webgl-utils.js"></script>
+
+    <script id="vs-shadowmap" type="x-shader/x-vertex">#version 300 es
  
 			uniform mat4 uMVMatrix;
 			uniform mat4 uPMatrix;
@@ -21,7 +22,7 @@
 			}
 		</script>
 
-		<script id="fs-shadowmap" type="x-shader/x-fragment">#version 300 es
+    <script id="fs-shadowmap" type="x-shader/x-fragment">#version 300 es
  
 			precision mediump int;
 			precision mediump float;
@@ -44,8 +45,8 @@
 			  
 			}
 		</script>
-        
-        <script id="vs" type="x-shader/x-vertex">#version 300 es
+
+    <script id="vs" type="x-shader/x-vertex">#version 300 es
  
             in vec3 aVertexPosition;
             in vec3 aVertexNormal;
@@ -67,8 +68,8 @@
                 vTransformedNormal = uNMatrix * aVertexNormal;
             }
         </script>
-         
-        <script id="fs" type="x-shader/x-fragment">#version 300 es
+
+    <script id="fs" type="x-shader/x-fragment">#version 300 es
             
             precision mediump float;
             
@@ -161,143 +162,199 @@
 				
             }
         </script>
-  
-        <script type="text/javascript" src="js/hirarki.js"></script>
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/w3.css">
-        <link rel="stylesheet" href="css/ws2.css">
-        
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/hirarki.js"></script>
 
-    </head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/ws2.css">
 
-    <body onload="webGLStart();" class="w3-black">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
-        <div id="mySidenav" class="sidenav">
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</head>
 
-          <input type="checkbox" id="animation" checked /> Use animation<br/>
-          <input type="checkbox" id="lighting" checked /> Use lighting<br/>
-          <input type="checkbox" id="texture" checked /> Use texture<br/>
-          <div class="input-light">
-                <h2>Point light</h2>
-                <div>
-                    X<br />
-                    <input type="range" min="-100" max="100" value="0" class="slider" id="lightPositionX">
-                </div>
-                <div>
-                    Y<br />
-                    <input type="range" min="-50" max="50" value="0" class="slider" id="lightPositionY">
-                </div>
-                <div>
-                    Z<br />
-                    <input type="range" min="-300" max="-100" value="-200" class="slider" id="lightPositionZ">
-                </div>
-                <div>
-                    R: <br/>  <input type="text" id="pointR" value="0.5" />
-                </div>
-                <div>
-                    G: <br/>  <input type="text" id="pointG" value="0.5" />
-                </div>
-                <div>
-                    B:  <br/> <input type="text" id="pointB" value="0.5" />
-                </div>
-            </div>
-            <div class="input-light">
-                <h2>Ambient light</h2>
-                <div>
-                    R: <br/>  <input type="text" id="ambientR" value="0.2" />
-                </div>
-                <div>
-                    G:  <br/> <input type="text" id="ambientG" value="0.2" />
-                </div>
-                <div>
-                    B:  <br/> <input type="text" id="ambientB" value="0.2" />
-                </div>
-            </div>
-            <div>
-                <h2>Draw Mode</h2>
-                <div>
-                    <select class="form-control form-control-sm" id="draw-mode">
-                        <option value="shading">Shading</option>
-                        <option value="wireframe">wireframe</option>
-                    </select> 
-                </div>
-            </div>
-            <div>
-               <h2>Arm Material</h2>
-               <div>
-                    <select class="form-control form-control-sm" id="arm-material">
-                      <option value="none">None</option>
-                      <option value="brass">Brass</option>
-                      <option value="chrome">Chrome</option>
-                      <option value="bronze">Bronze</option>
-                    </select>
-                </div>
-               <h2>Camera Material</h2>
-               <div>
-                    <select class="form-control form-control-sm" id="camera-material">
-                      <option value="none">None</option>
-                      <option value="brass">Brass</option>
-                      <option value="chrome">Chrome</option>
-                      <option value="bronze">Bronze</option>
-                    </select>
-                </div>
-               <h2>Room Material</h2>
-               <div>
-                    <select class="form-control form-control-sm" id="room-material">
-                      <option value="none">None</option>
-                      <option value="brass">Brass</option>
-                      <option value="chrome">Chrome</option>
-                      <option value="bronze">Bronze</option>
-                    </select>
-                </div>
-            </div>
+<body onload="webGLStart();" class="w3-black">
 
-          <!-- Avatar image in top left corner -->
-            <h2>SPIDER</h2>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <input type="checkbox" id="animation" checked /> Use animation<br />
+        <input type="checkbox" id="lighting" checked /> Use lighting<br />
+        <input type="checkbox" id="texture" checked /> Use texture<br />
+        <div class="input-light">
+            <h2>Point light</h2>
             <div>
-                Spider Rotation<br />
-                <input type="range" min="0" max="360" value="0" class="slider" id="baseSpiderRotationSlider" disabled>            
+                X<br />
+                <input type="range" min="-100" max="100" value="0" class="slider" id="lightPositionX">
             </div>
             <div>
-                First Right Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="firstRightSpiderRotationSlider" disabled>
+                Y<br />
+                <input type="range" min="-50" max="50" value="0" class="slider" id="lightPositionY">
             </div>
             <div>
-                Second Right Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="secondRightSpiderRotationSlider" disabled>
+                Z<br />
+                <input type="range" min="-300" max="-100" value="-200" class="slider" id="lightPositionZ">
             </div>
             <div>
-                Third Right Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="thirdRightSpiderRotationSlider" disabled>
+                R: <br /> <input type="text" id="pointR" value="0.5" />
             </div>
             <div>
-                Fourth Right Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="fourthRightSpiderRotationSlider" disabled>
+                G: <br /> <input type="text" id="pointG" value="0.5" />
             </div>
             <div>
-                First Left Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="firstLeftSpiderRotationSlider" disabled>
+                B: <br /> <input type="text" id="pointB" value="0.5" />
+            </div>
+        </div>
+        <div class="input-light">
+            <h2>Ambient light</h2>
+            <div>
+                R: <br /> <input type="text" id="ambientR" value="0.2" />
             </div>
             <div>
-                Second Left Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="secondLeftSpiderRotationSlider" disabled>
+                G: <br /> <input type="text" id="ambientG" value="0.2" />
             </div>
             <div>
-                Third Left Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="thirdLeftSpiderRotationSlider" disabled>
-            </div>
-            <div>
-                Fourth Left Leg Rotation<br/>
-                <input type="range" min="-30" max="30" value="0" class="slider" id="fourthLeftSpiderRotationSlider" disabled>
+                B: <br /> <input type="text" id="ambientB" value="0.2" />
             </div>
         </div>
         <div>
-            <canvas id="canvas" style="border: none;" width="1024" height="768"></canvas>
+            <h2>Draw Mode</h2>
+            <div>
+                <select class="form-control form-control-sm" id="draw-mode">
+                    <option value="shading">Shading</option>
+                    <option value="wireframe">wireframe</option>
+                </select>
+            </div>
         </div>
-    </body>
+        <div>
+            <h2>Room Material</h2>
+            <div>
+                <select class="form-control form-control-sm" id="room-material">
+                    <option value="none">None</option>
+                    <option value="brass">Brass</option>
+                    <option value="chrome">Chrome</option>
+                    <option value="bronze">Bronze</option>
+                </select>
+            </div>
+
+            <h2>Spider Material</h2>
+            <div>
+                <select class="form-control form-control-sm" id="spider-material">
+                    <option value="none">None</option>
+                    <option value="brass">Brass</option>
+                    <option value="chrome">Chrome</option>
+                    <option value="bronze">Bronze</option>
+                </select>
+            </div>
+
+            <h2>Bird Material</h2>
+            <div>
+                <select class="form-control form-control-sm" id="bird-material">
+                    <option value="none">None</option>
+                    <option value="brass">Brass</option>
+                    <option value="chrome">Chrome</option>
+                    <option value="bronze">Bronze</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Avatar image in top left corner -->
+        <h2>SPIDER</h2>
+        <div>
+            Spider Rotation<br />
+            <input type="range" min="0" max="360" value="0" class="slider" id="baseSpiderRotationSlider" disabled>
+        </div>
+        <div>
+            First Right Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="firstRightSpiderRotationSlider"
+                disabled>
+        </div>
+        <div>
+            Second Right Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="secondRightSpiderRotationSlider"
+                disabled>
+        </div>
+        <div>
+            Third Right Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="thirdRightSpiderRotationSlider"
+                disabled>
+        </div>
+        <div>
+            Fourth Right Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="fourthRightSpiderRotationSlider"
+                disabled>
+        </div>
+        <div>
+            First Left Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="firstLeftSpiderRotationSlider" disabled>
+        </div>
+        <div>
+            Second Left Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="secondLeftSpiderRotationSlider"
+                disabled>
+        </div>
+        <div>
+            Third Left Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="thirdLeftSpiderRotationSlider" disabled>
+        </div>
+        <div>
+            Fourth Left Leg Rotation<br />
+            <input type="range" min="-30" max="30" value="0" class="slider" id="fourthLeftSpiderRotationSlider"
+                disabled>
+        </div>
+
+
+        <h2>BIRD</h2>
+        <div>
+            Bird Rotation<br />
+            <input type="range" min="0" max="360" value="0" class="slider" id="birdBodyRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Neck Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdNeckRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Head Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdHeadRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Right Wing Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdRightWingRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Left Wing Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdLeftWingRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Upper Right Leg Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdUpperRightLegRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Upper Left Leg Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdUpperLeftLegRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Lower Right Leg Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdLowerRightLegRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Lower Left Leg Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdLowerLeftLegRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Right Foot Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdRightFootRotationSlider" disabled>
+        </div>
+        <div>
+            Bird Left Foot Rotation<br />
+            <input type="range" min="0" max="45" value="0" class="slider" id="birdLeftFootRotationSlider" disabled>
+        </div>
+    </div>
+    <div>
+        <canvas id="canvas" style="border: none;" width="1024" height="768"></canvas>
+    </div>
+</body>
+
 </html>
