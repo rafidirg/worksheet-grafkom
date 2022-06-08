@@ -644,6 +644,18 @@ var clawSecondFingerUpperNode; var clawSecondUpperFingerRotation = 0; var clawSe
 var clawFirstFingerLowerNode;
 var clawSecondFingerLowerNode;
 
+// Table
+var tableBodyNode; var tableBodyAngle = 0;
+var tableFirstLegNode;
+var tableSecondLegNode;
+var tableThirdLegNode;
+var tableFourthLegNode;
+
+// Piston
+var pistonBodyNode; var pistonBodyAngle = 0;
+var pistonPillarNode; var pistonPillarTranslation = 0; var pistonPillarDirection = 1;
+var pistonTopNode;
+
 function drawLightSource(shadow) {
     mvPushMatrix();
     //item specific modifications
@@ -674,7 +686,6 @@ function drawRoom(shadow) {
  * Functions to draw spider
  * 
  */
-
 function drawSpiderBody(shadow) {
     mvPushMatrix();
     mat4.scale(mvMatrix, [0.5, 0.3, 1.5]);
@@ -701,7 +712,6 @@ function drawSpiderLeg(shadow) {
  * Functions to draw bird
  * 
  */
-
 function drawBirdBody(shadow) {
     mvPushMatrix();
     //item specific modifications
@@ -788,9 +798,10 @@ function drawBirdFoot(shadow) {
 }
 
 /**
- * Function to draw Claw Machine
+ * 
+ * Functions to draw claw machine
+ * 
  */
-
 function drawClawBase(shadow) {
     mvPushMatrix();
     mat4.scale(mvMatrix, [1, 0.2, 1]);
@@ -841,6 +852,75 @@ function drawClawFinger(shadow) {
     mvPopMatrix(shadow);   
 }
 
+/**
+ * 
+ * Functions to draw table
+ * 
+ */
+function drawTableBody(shadow) {
+    mvPushMatrix();
+    //item specific modifications
+    mat4.scale(mvMatrix, [4, 0.2, 2]);
+    //draw
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawTableLeg(shadow) {
+    mvPushMatrix();
+    //item specific modifications
+    mat4.scale(mvMatrix, [0.2, 1, 0.2]);
+    //draw
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+/**
+ * 
+ * Functions to draw piston
+ * 
+ */
+function drawPistonBody(shadow) {
+    mvPushMatrix();
+    //item specific modifications
+    mat4.scale(mvMatrix, [0.6, 0.9, 0.9]);
+    //draw
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(8, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawPistonPillar(shadow) {
+    mvPushMatrix();
+    //item specific modifications
+    mat4.scale(mvMatrix, [0.59, 0.2, 0.2]);
+    //draw
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);   
+}
+
+function drawPistonTop(shadow) {
+    mvPushMatrix();
+    //item specific modifications
+    mat4.scale(mvMatrix, [0.15, 0.9, 0.9]);
+    //draw
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);   
+}
 
 function initObjectTree() {
     lightSourceNode = { "draw": drawLightSource, "matrix": mat4.identity(mat4.create()) };
@@ -918,7 +998,7 @@ function initObjectTree() {
     mat4.rotate(birdLeftWingNode.matrix, (birdLeftWingAngle - 20) / 3, [1.0, 0.0, 0.0]);
 
     birdUpperRightLegNode = { "draw": drawBirdUpperLeg, "matrix": mat4.identity(mat4.create()) };
-    mat4.translate(birdUpperRightLegNode.matrix, [0.7, -1.1, -0.9]);
+    mat4.translate(birdUpperRightLegNode.matrix, [0, -1.1, -0.9]);
     mat4.rotate(birdUpperRightLegNode.matrix, ((birdUpperRightLegAngle + 30) * Math.PI) / 180, [0.0, 0.0, 1.0]);
 
     birdLowerRightLegNode = { "draw": drawBirdLowerLeg, "matrix": mat4.identity(mat4.create()) };
@@ -926,7 +1006,7 @@ function initObjectTree() {
     mat4.rotate(birdLowerRightLegNode.matrix, ((birdLowerRightLegAngle - 60) * Math.PI) / 180, [0.0, 0.0, 1.0]);
 
     birdUpperLeftLegNode = { "draw": drawBirdUpperLeg, "matrix": mat4.identity(mat4.create()) };
-    mat4.translate(birdUpperLeftLegNode.matrix, [0.7, -1.1, 0.9]);
+    mat4.translate(birdUpperLeftLegNode.matrix, [0, -1.1, 0.9]);
     mat4.rotate(birdUpperLeftLegNode.matrix, ((birdUpperLeftLegAngle + 30) * Math.PI) / 180, [0.0, 0.0, 1.0]);
 
     birdLowerLeftLegNode = { "draw": drawBirdLowerLeg, "matrix": mat4.identity(mat4.create()) };
@@ -975,6 +1055,38 @@ function initObjectTree() {
     mat4.translate(clawSecondFingerLowerNode.matrix, [0, -0.8, 0])
 
     /**
+     * Create Table Node
+     */
+    tableBodyNode = { "draw": drawTableBody, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(tableBodyNode.matrix, [-4, -2.5, -3]);
+    mat4.rotate(tableBodyNode.matrix, tableBodyAngle, [0.0, 1.0, 0.0]);
+
+    tableFirstLegNode = { "draw": drawTableLeg, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(tableFirstLegNode.matrix, [3.2, -1, -1.5]);
+
+    tableSecondLegNode = { "draw": drawTableLeg, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(tableSecondLegNode.matrix, [-3.2, -1, -1.5]);
+
+    tableThirdLegNode = { "draw": drawTableLeg, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(tableThirdLegNode.matrix, [-3.2, -1, 1.5]);
+
+    tableFourthLegNode = { "draw": drawTableLeg, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(tableFourthLegNode.matrix, [3.2, -1, 1.5]);
+
+    /**
+     * Make Piston Node
+     */
+    pistonBodyNode = { "draw": drawPistonBody, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(pistonBodyNode.matrix, [-6, 2.2, -1]);
+    mat4.rotate(pistonBodyNode.matrix, pistonBodyAngle, [0.0, 1.0, 0.0]);
+
+    pistonPillarNode = { "draw": drawPistonPillar, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(pistonPillarNode.matrix, [-pistonPillarTranslation, 0, 0]);
+
+    pistonTopNode = { "draw": drawPistonTop, "matrix": mat4.identity(mat4.create()) };
+    mat4.translate(pistonTopNode.matrix, [0.75, 0, 0]);
+
+    /**
      * Create Spider Hiearchical Model
      */
     baseSpiderBodyNode.child = firstSpiderRightLegNode;
@@ -1012,6 +1124,22 @@ function initObjectTree() {
     clawFirstFingerUpperNode.sibling = clawSecondFingerUpperNode;
     clawFirstFingerUpperNode.child = clawFirstFingerLowerNode;
     clawSecondFingerUpperNode.child = clawSecondFingerLowerNode;
+    
+    /**
+     * Create Table Hierarhical Model
+     */
+    clawBaseNode.sibling = tableBodyNode;
+    tableBodyNode.child = tableFirstLegNode;
+    tableFirstLegNode.sibling = tableSecondLegNode;
+    tableSecondLegNode.sibling = tableThirdLegNode;
+    tableThirdLegNode.sibling = tableFourthLegNode;
+
+    /**
+     * Create Piston Hiearchical Model
+     */
+    tableFourthLegNode.child = pistonBodyNode;
+    pistonBodyNode.child = pistonPillarNode;
+    pistonPillarNode.child = pistonTopNode
 }
 
 function traverse(node, shadow) {
@@ -1485,6 +1613,13 @@ function animate() {
         if(clawSecondUpperFingerRotation > 40 * Math.PI / 180 && clawSecondDirection == 1) clawSecondDirection *= -1;
         if(clawSecondUpperFingerRotation < 10 * Math.PI / 180 && clawSecondDirection == -1) clawSecondDirection *= -1;
         document.getElementById("clawSecondUpperFingerRotationSlider").value = clawSecondUpperFingerRotation * 180 / (Math.PI)
+    
+        // Piston
+        pistonPillarTranslation += update * pistonPillarDirection;
+        if(pistonPillarTranslation > 0 && pistonPillarDirection == 1) pistonPillarDirection *= -1;
+        if(pistonPillarTranslation < -1.2 && pistonPillarDirection == -1) pistonPillarDirection *= -1;
+        document.getElementById("pistonPillarTranslationRotationSlider").value = pistonPillarTranslation * 100
+
     }
     initObjectTree();
 }
@@ -1533,7 +1668,14 @@ function initInputs() {
             document.getElementById("clawBaseRotationSlider").disabled = true;
             document.getElementById("clawArmTranslationSlider").disabled = true;
             document.getElementById("clawFirstUpperFingerRotationSlider").disabled = true;
-            document.getElementById("clawSeoncdUpperFingerRotationSlider").disabled = true;
+            document.getElementById("clawSecondUpperFingerRotationSlider").disabled = true;
+
+            // Table
+            document.getElementById("tableBodyRotationSlider").disabled = true;
+
+            // Piston
+            document.getElementById("pistonBodyRotationSlider").disabled = true;
+            document.getElementById("pistonPillarTranslationRotationSlider").disabled = true;
 
         } else {
             // Spider
@@ -1564,8 +1706,14 @@ function initInputs() {
             document.getElementById("clawBaseRotationSlider").disabled = false;
             document.getElementById("clawArmTranslationSlider").disabled = false;
             document.getElementById("clawFirstUpperFingerRotationSlider").disabled = false;
-            document.getElementById("clawSeoncdUpperFingerRotationSlider").disabled = false;
+            document.getElementById("clawSecondUpperFingerRotationSlider").disabled = false;
 
+            // Table
+            document.getElementById("tableBodyRotationSlider").disabled = false;
+
+            // Piston
+            document.getElementById("pistonBodyRotationSlider").disabled = false;
+            document.getElementById("pistonPillarTranslationRotationSlider").disabled = false;
         }
     };
 
@@ -1645,6 +1793,19 @@ function initInputs() {
     }
     document.getElementById("clawSecondUpperFingerRotationSlider").oninput = function() {
         clawSecondUpperFingerRotation = document.getElementById("clawSecondUpperFingerRotationSlider").value * Math.PI / 180
+    }
+
+    // Table
+    document.getElementById("tableBodyRotationSlider").oninput = function () {
+        tableBodyAngle = document.getElementById("tableBodyRotationSlider").value * Math.PI / 180;
+    }
+
+    // Piston
+    document.getElementById("pistonBodyRotationSlider").oninput = function () {
+        pistonBodyAngle = document.getElementById("pistonBodyRotationSlider").value * Math.PI / 180;
+    }
+    document.getElementById("pistonPillarTranslationRotationSlider").oninput = function () {
+        pistonPillarTranslation = document.getElementById("pistonPillarTranslationRotationSlider").value / 180;
     }
 
     document.getElementById("draw-mode").onchange = function () {
