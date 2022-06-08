@@ -724,7 +724,7 @@ function drawBirdBody(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     setupMaterial(birdMaterial, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
@@ -737,7 +737,7 @@ function drawBirdNeck(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -749,7 +749,7 @@ function drawBirdHead(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -761,7 +761,7 @@ function drawBirdWing(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -773,7 +773,7 @@ function drawBirdUpperLeg(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -785,7 +785,7 @@ function drawBirdLowerLeg(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -797,7 +797,7 @@ function drawBirdFoot(shadow) {
     //draw
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(7, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -812,7 +812,7 @@ function drawClawBase(shadow) {
     mat4.scale(mvMatrix, [1, 0.2, 1]);
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(0, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -822,7 +822,7 @@ function drawClawBody(shadow) {
     mat4.scale(mvMatrix, [0.3, 1, 0.3]);
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(0, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -832,7 +832,7 @@ function drawClawSecondBody(shadow) {
     mat4.scale(mvMatrix, [0.2, 1, 0.2]);
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(0, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -842,7 +842,7 @@ function drawClawFingerBase(shadow) {
     mat4.scale(mvMatrix, [0.5, 0.2, 0.5]);
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(0, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);   
 }
@@ -852,7 +852,7 @@ function drawClawFinger(shadow) {
     mat4.scale(mvMatrix, [0.1, 0.4, 0.1]);
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
-    chooseTexture(2, shadow);
+    chooseTexture(0, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);   
 }
@@ -1528,38 +1528,24 @@ function animate() {
         document.getElementById("firstRightSpiderRotationSlider").value = firstSpiderRightLegAngle * 180 / (Math.PI);
 
         secondSpiderRightLegAngle += 0.5 * update * spiderLegDirection;
-        if (secondSpiderRightLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (secondSpiderRightLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("secondRightSpiderRotationSlider").value = secondSpiderRightLegAngle * 180 / (Math.PI);
 
         thirdSpiderRightLegAngle += 0.5 * update * spiderLegDirection;
-        if (thirdSpiderRightLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (thirdSpiderRightLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("thirdRightSpiderRotationSlider").value = thirdSpiderRightLegAngle * 180 / (Math.PI);
 
         fourthSpiderRightLegAngle += 0.5 * update * spiderLegDirection;
-        if (fourthSpiderRightLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (fourthSpiderRightLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("fourthRightSpiderRotationSlider").value = fourthSpiderRightLegAngle * 180 / (Math.PI);
 
         firstSpiderLeftLegAngle += 0.5 * update * spiderLegDirection;
-        if (firstSpiderLeftLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (firstSpiderLeftLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("firstLeftSpiderRotationSlider").value = firstSpiderLeftLegAngle * 180 / (Math.PI);
 
         secondSpiderLeftLegAngle += 0.5 * update * spiderLegDirection;
-        if (secondSpiderLeftLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (secondSpiderLeftLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("secondLeftSpiderRotationSlider").value = secondSpiderLeftLegAngle * 180 / (Math.PI);
 
         thirdSpiderLeftLegAngle += 0.5 * update * spiderLegDirection;
-        if (thirdSpiderLeftLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (thirdSpiderLeftLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("thirdLeftSpiderRotationSlider").value = thirdSpiderLeftLegAngle * 180 / (Math.PI);
 
         fourthSpiderLeftLegAngle += 0.5 * update * spiderLegDirection;
-        if (fourthSpiderLeftLegAngle < -Math.PI / 6 && spiderLegDirection == -1) spiderLegDirection *= -1;
-        if (fourthSpiderLeftLegAngle > Math.PI / 6 && spiderLegDirection == 1) spiderLegDirection *= -1;
         document.getElementById("fourthLeftSpiderRotationSlider").value = fourthSpiderLeftLegAngle * 180 / (Math.PI);
 
         // Bird
@@ -1905,7 +1891,7 @@ function initTexture() {
     image0.onload = function () {
         configureTexture(image0, gl.TEXTURE0);
     }
-    image0.src = "img/arm_texture2.jpg"
+    image0.src = "img/steel.jpg"
 
     var image1 = new Image();
     image1.onload = function () {
@@ -1917,7 +1903,7 @@ function initTexture() {
     image2.onload = function () {
         configureTexture(image2, gl.TEXTURE2);
     }
-    image2.src = "img/blue.jpg"
+    image2.src = "img/wood.jpg"
 
     var image3 = new Image();
     image3.onload = function () {
@@ -1935,7 +1921,7 @@ function initTexture() {
     image7.onload = function () {
         configureTexture(image7, gl.TEXTURE7);
     }
-    image7.src = "img/red.jpg"
+    image7.src = "img/soft.jpg"
 
     var image8 = new Image();
     image8.onload = function () {
