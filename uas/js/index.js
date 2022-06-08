@@ -188,8 +188,6 @@ var sphereTextureBuffer;
 var shadowFrameBuffer;
 
 var roomMaterial;
-var spiderMaterial;
-var birdMaterial;
 
 var objectDrawMode;
 
@@ -698,7 +696,6 @@ function drawSpiderBody(shadow) {
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
     chooseTexture(6, shadow);
-    setupMaterial(spiderMaterial, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -726,7 +723,6 @@ function drawBirdBody(shadow) {
     setupToDrawCube(shadow);
     setMatrixUniforms(shadow);
     chooseTexture(7, shadow);
-    setupMaterial(birdMaterial, shadow);
     gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     mvPopMatrix(shadow);
 }
@@ -994,6 +990,7 @@ function initObjectTree() {
 
     birdHeadNode = { "draw": drawBirdHead, "matrix": mat4.identity(mat4.create()) };
     mat4.translate(birdHeadNode.matrix, [-0.7, 0.85, 0.0]);
+    mat4.rotate(birdHeadNode.matrix, birdHeadAngle / 3, [0.0, 0.0, 1.0]);
 
     birdRightWingNode = { "draw": drawBirdWing, "matrix": mat4.identity(mat4.create()) };
     mat4.translate(birdRightWingNode.matrix, [0.0, 0.7, -1.3]);
@@ -1574,36 +1571,6 @@ function animate() {
         if (birdLeftWingAngle < 0 && birdLeftWingDirection == -1) birdLeftWingDirection *= -1;
         if (birdLeftWingAngle > Math.PI / 4 && birdLeftWingDirection == 1) birdLeftWingDirection *= -1;
         document.getElementById("birdLeftWingRotationSlider").value = birdLeftWingAngle * 180 / (Math.PI);
-
-        birdUpperRightLegAngle += update * birdUpperRightLegDirection;
-        if (birdUpperRightLegAngle < 0 && birdUpperRightLegDirection == -1) birdUpperRightLegDirection *= -1;
-        if (birdUpperRightLegAngle > Math.PI / 4 && birdUpperRightLegDirection == 1) birdUpperRightLegDirection *= -1;
-        document.getElementById("birdUpperRightLegRotationSlider").value = birdUpperRightLegAngle * 180 / (Math.PI);
-
-        birdUpperLeftLegAngle += update * birdUpperLeftLegDirection;
-        if (birdUpperLeftLegAngle < 0 && birdUpperLeftLegDirection == -1) birdUpperLeftLegDirection *= -1;
-        if (birdUpperLeftLegAngle > Math.PI / 4 && birdUpperLeftLegDirection == 1) birdUpperLeftLegDirection *= -1;
-        document.getElementById("birdUpperLeftLegRotationSlider").value = birdUpperLeftLegAngle * 180 / (Math.PI);
-
-        birdLowerRightLegAngle += update * birdLowerRightLegDirection;
-        if (birdLowerRightLegAngle < 0 && birdLowerRightLegDirection == -1) birdLowerRightLegDirection *= -1;
-        if (birdLowerRightLegAngle > Math.PI / 4 && birdLowerRightLegDirection == 1) birdLowerRightLegDirection *= -1;
-        document.getElementById("birdLowerRightLegRotationSlider").value = birdLowerRightLegAngle * 180 / (Math.PI);
-
-        birdLowerLeftLegAngle += update * birdLowerLeftLegDirection;
-        if (birdLowerLeftLegAngle < 0 && birdLowerLeftLegDirection == -1) birdLowerLeftLegDirection *= -1;
-        if (birdLowerLeftLegAngle > Math.PI / 4 && birdLowerLeftLegDirection == 1) birdLowerLeftLegDirection *= -1;
-        document.getElementById("birdLowerLeftLegRotationSlider").value = birdLowerLeftLegAngle * 180 / (Math.PI);
-
-        birdRightFootAngle += update * birdRightFootDirection;
-        if (birdRightFootAngle < 0 && birdRightFootDirection == -1) birdRightFootDirection *= -1;
-        if (birdRightFootAngle > Math.PI / 4 && birdRightFootDirection == 1) birdRightFootDirection *= -1;
-        document.getElementById("birdRightFootRotationSlider").value = birdRightFootAngle * 180 / (Math.PI);
-
-        birdLeftFootAngle += update * birdLeftFootDirection;
-        if (birdLeftFootAngle < 0 && birdLeftFootDirection == -1) birdLeftFootDirection *= -1;
-        if (birdLeftFootAngle > Math.PI / 4 && birdLeftFootDirection == 1) birdLeftFootDirection *= -1;
-        document.getElementById("birdLeftFootRotationSlider").value = birdLeftFootAngle * 180 / (Math.PI);
     
         // Claw Animation
         clawBaseRotation += (clawBaseRotation + update) % (2 * Math.PI)
@@ -1667,12 +1634,6 @@ function initInputs() {
             document.getElementById("birdHeadRotationSlider").disabled = true;
             document.getElementById("birdRightWingRotationSlider").disabled = true;
             document.getElementById("birdLeftWingRotationSlider").disabled = true;
-            document.getElementById("birdUpperRightLegRotationSlider").disabled = true;
-            document.getElementById("birdUpperLeftLegRotationSlider").disabled = true;
-            document.getElementById("birdLowerRightLegRotationSlider").disabled = true;
-            document.getElementById("birdLowerLeftLegRotationSlider").disabled = true;
-            document.getElementById("birdRightFootRotationSlider").disabled = true;
-            document.getElementById("birdLeftFootRotationSlider").disabled = true;
 
             // Claw Machine
             document.getElementById("clawBaseRotationSlider").disabled = true;
@@ -1705,12 +1666,6 @@ function initInputs() {
             document.getElementById("birdHeadRotationSlider").disabled = false;
             document.getElementById("birdRightWingRotationSlider").disabled = false;
             document.getElementById("birdLeftWingRotationSlider").disabled = false;
-            document.getElementById("birdUpperRightLegRotationSlider").disabled = false;
-            document.getElementById("birdUpperLeftLegRotationSlider").disabled = false;
-            document.getElementById("birdLowerRightLegRotationSlider").disabled = false;
-            document.getElementById("birdLowerLeftLegRotationSlider").disabled = false;
-            document.getElementById("birdRightFootRotationSlider").disabled = false;
-            document.getElementById("birdLeftFootRotationSlider").disabled = false;
         
             // Claw Machine
             document.getElementById("clawBaseRotationSlider").disabled = false;
@@ -1772,24 +1727,6 @@ function initInputs() {
     document.getElementById("birdLeftWingRotationSlider").oninput = function () {
         birdLeftWingAngle = document.getElementById("birdLeftWingRotationSlider").value * Math.PI / 180;
     }
-    document.getElementById("birdUpperRightLegRotationSlider").oninput = function () {
-        birdUpperRightLegAngle = document.getElementById("birdUpperRightLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("birdUpperLeftLegRotationSlider").oninput = function () {
-        birdUpperLeftLegAngle = document.getElementById("birdUpperLeftLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("birdLowerRightLegRotationSlider").oninput = function () {
-        birdLowerRightLegAngle = document.getElementById("birdLowerRightLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("birdLowerLeftLegRotationSlider").oninput = function () {
-        birdLowerLeftLegAngle = document.getElementById("birdLowerLeftLegRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("birdRightFootRotationSlider").oninput = function () {
-        birdRightFootAngle = document.getElementById("birdRightFootRotationSlider").value * Math.PI / 180;
-    }
-    document.getElementById("birdLeftFootRotationSlider").oninput = function () {
-        birdLeftFootAngle = document.getElementById("birdLeftFootRotationSlider").value * Math.PI / 180;
-    }
 
     // Claw Machine 
     document.getElementById("clawBaseRotationSlider").oninput = function() {
@@ -1825,12 +1762,6 @@ function initInputs() {
     }
     document.getElementById("room-material").onchange = function () {
         roomMaterial = document.getElementById("room-material").value;
-    }
-    document.getElementById("spider-material").onchange = function () {
-        spiderMaterial = document.getElementById("spider-material").value;
-    }
-    document.getElementById("bird-material").onchange = function () {
-        birdMaterial = document.getElementById("bird-material").value;
     }
 
     // Camera Mode
@@ -1938,8 +1869,6 @@ function webGLStart() {
     canvas.height = window.innerHeight * 0.9;
     canvas.width = window.innerWidth;
     roomMaterial = document.getElementById("room-material").value;
-    spiderMaterial = document.getElementById("spider-material").value;
-    birdMaterial = document.getElementById("bird-material").value;
     initGL(canvas);
     initShaders();
     initBuffers();
