@@ -16,6 +16,22 @@
         - Terdapat 2 mode titik pandang kamera, titik pandang utama dan titik pandang dari salah satu objek
         - Titik pandang utama merupakan kamera yang dapat melihat keseluruhan object dan scene
         - Titik pandang dari salah satu objek merupakan kamera dari sudut pandang salah satu object berhirarki. Kamera akan mengikuti pergerakan objectnya
+
+### Proses Pembentukan Object:
+- Membuat kerangka sesuai dengan bentuk bentuk objek (Cube, Cylinder, Sphere)
+- Penggabungan objek-objek kedalam bentuk tree dengan meng-translate dan scaling
+
+### Proses Render Object:
+- Object dirender dengan cara traverse node-node yang ada pada tree
+
+### Fasilitas WebGL yang digunakan:
+- Pembentukan kerangka object yang sama dapat dibuat sebuah fungsi sehingga ketika ada objek yang mirip objek hanya perlu di translate dan scale
+
+### Algoritma Khusus yang digunakan:
+- Penggunaan struktur data tree untuk model hierearki.
+- Pembentukan objek dari kerangka objek
+- Pembentukan bayangan pada fragment shader.
+
 ### Pembagian Kerja:
 - Rafi Indrawan Dirgantara (1906350824):
     - Membuat model spider dan claw machine
