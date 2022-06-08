@@ -609,6 +609,11 @@ var animating = 1;
 var lightSourceNode;
 var roomNode;
 
+// Camera
+var cameraMode = 0;
+var camXLookAt = 0; var camYLookAt = 0; var camZLookAt = -10;
+var camXPos = 0; var camYPos = 0; var camZPos =0;
+
 // Spider
 var baseSpiderBodyNode; var baseSpiderAngle = 0;
 var firstSpiderRightLegNode; var firstSpiderRightLegAngle = 0;
@@ -978,7 +983,7 @@ function initObjectTree() {
     /**
      * Make Bird Node
      */
-    birdBodyNode = { "draw": drawBirdBody, "matrix": mat4.identity(mat4.create()) };
+    birdBodyNode = { "draw": drawBirdBody, "matrix": mat4.identity(mat4.create()), location: [5, -2.5, 3.0], rotation: birdBodyAngle};
     mat4.translate(birdBodyNode.matrix, [5.0, -2.5, 3.0]);
     mat4.rotate(birdBodyNode.matrix, birdBodyAngle, [0.0, 1.0, 0.0]);
 
@@ -1442,12 +1447,28 @@ function drawScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     pMatrix = mat4.create();
-    lookAt(lookAtMatrix,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, -10.0,
-        0.0, 1.0, 0.0);
-    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
-    mat4.multiply(pMatrix, lookAtMatrix);
+
+    if (cameraMode == 0){
+        lookAt(lookAtMatrix,
+            camXPos, camYPos, camZPos,
+            camXLookAt, camYLookAt, camZLookAt,
+            0.0, 1.0, 0.0);
+        mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+        mat4.multiply(pMatrix, lookAtMatrix);
+    } else {
+        lookAt(lookAtMatrix,
+            -2.0, 2.0, 0.0,
+            -5.0, 1.0, 0.0,
+            0.0, 1.0, 0.0);
+        mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+        var newMat = mat4.identity(mat4.create())
+        birdBodyNode.location[2] -= 20;
+        mat4.translate(newMat, birdBodyNode.location);
+        mat4.rotate(newMat, birdBodyNode.rotation, [0, 1, 0]);
+        mat4.multiply(pMatrix, lookAtMatrix);
+        mat4.multiply(pMatrix, mat4.inverse(newMat, mat4.create()))
+    }
+    
 
     gl.uniform1i(shaderProgram.useLightingUniform, document.getElementById("lighting").checked);
     gl.uniform1i(shaderProgram.useTextureUniform, document.getElementById("texture").checked);
@@ -1821,6 +1842,47 @@ function initInputs() {
     }
     document.getElementById("bird-material").onchange = function () {
         birdMaterial = document.getElementById("bird-material").value;
+    }
+
+    // Camera Mode
+    document.getElementById("camera-mode").onchange = function() {
+        cameraMode = document.getElementById("camera-mode").value
+
+        if (cameraMode == 0){
+            document.getElementById("xLookAt").disabled = false;
+            document.getElementById("yLookAt").disabled = false;
+            document.getElementById("zLookAt").disabled = false;
+            document.getElementById("xCamPos").disabled = false;
+            document.getElementById("yCamPos").disabled = false;
+            document.getElementById("zCamPos").disabled = false;
+        } else {
+            document.getElementById("xLookAt").disabled = true;
+            document.getElementById("yLookAt").disabled = true;
+            document.getElementById("zLookAt").disabled = true;
+            document.getElementById("xCamPos").disabled = true;
+            document.getElementById("yCamPos").disabled = true;
+            document.getElementById("zCamPos").disabled = true;
+        }
+    }
+
+    // Camera Input
+    document.getElementById("xLookAt").oninput = function() {
+        camXLookAt = document.getElementById("xLookAt").value / 100;
+    }
+    document.getElementById("yLookAt").oninput = function() {
+        camYLookAt = document.getElementById("yLookAt").value / 100;
+    }
+    document.getElementById("zLookAt").oninput = function() {
+        camZLookAt = document.getElementById("zLookAt").value / 100;
+    }
+    document.getElementById("xCamPos").oninput = function() {
+        camXPos = document.getElementById("xCamPos").value / 100;
+    }
+    document.getElementById("yCamPos").oninput = function() {
+        camYPos = document.getElementById("yCamPos").value / 100;
+    }
+    document.getElementById("zCamPos").oninput = function() {
+        camZPos = document.getElementById("zCamPos").value / 100;
     }
 }
 
