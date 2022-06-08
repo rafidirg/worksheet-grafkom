@@ -86,6 +86,8 @@
             uniform float uMaterialShininess;
             uniform float uFarPlane;
             
+            uniform vec3 uReverseLightDirection;
+
             uniform vec3 uAmbientColor;
             
             uniform vec3 uPointLightingLocation;
@@ -133,15 +135,18 @@
                 
                 
                 if(uUseLighting) {
+                    
 					
 					vec3 lightDirection = normalize(uPointLightingLocation - vPosition.xyz);
 					vec3 normal = normalize(vTransformedNormal);
+
+                    float dirLight = dot(normal, uReverseLightDirection);
 					
 					vec3 specularLightWeighting = vec3(0.0, 0.0, 0.0);
 					vec3 eyeDirection = normalize(-vPosition.xyz);
 					vec3 reflectionDirection = reflect(-lightDirection, normal);
 					
-					float specularLightBrightness = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess);
+					float specularLightBrightness = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess) + dirLight;
 					specularLightWeighting = uPointLightingSpecularColor * specularLightBrightness;
 					
 					float diffuseLightBrightness = max(dot(normal, lightDirection), 0.0);

@@ -101,6 +101,7 @@ function initShaders() {
     shaderProgram.uMaterialShininessUniform = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
     shaderProgram.uFarPlaneUniform = gl.getUniformLocation(shaderProgram, "uFarPlane");
     shaderProgram.shadowMapUniform = gl.getUniformLocation(shaderProgram, "shadowmap");
+    shaderProgram.uReverseLightDirection = gl.getUniformLocation(shaderProgram, "uReverseLightDirection")
 
     var shadowMapFragmentShader = getShader(gl, "fs-shadowmap");
     var shadowMapVertexShader = getShader(gl, "vs-shadowmap");
@@ -1503,6 +1504,8 @@ function drawScene() {
     gl.uniform1i(shaderProgram.shadowMapUniform, 31);
 
     gl.uniform1f(shaderProgram.uFarPlaneUniform, 100.0);
+
+    gl.uniform3fv(shaderProgram.uReverseLightDirection, V.normalize([0.5, 0.7, 1]))
 
     mat4.identity(mvMatrix);
     traverse(lightSourceNode, false);
