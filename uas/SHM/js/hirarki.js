@@ -896,10 +896,10 @@ function initObjectTree() {
     mat4.translate(fourthSpiderLeftLegNode.matrix, [0.5, 0, 0])
 
     /**
-     * Make Spider Node
+     * Make Bird Node
      */
     birdBodyNode = { "draw": drawBirdBody, "matrix": mat4.identity(mat4.create()) };
-    mat4.translate(birdBodyNode.matrix, [5.0, 0.0, 0.0]);
+    mat4.translate(birdBodyNode.matrix, [5.0, -2.5, 3.0]);
     mat4.rotate(birdBodyNode.matrix, birdBodyAngle, [0.0, 1.0, 0.0]);
 
     birdNeckNode = { "draw": drawBirdNeck, "matrix": mat4.identity(mat4.create()) };
@@ -945,7 +945,7 @@ function initObjectTree() {
      * Create Claw Node
      */
     clawBaseNode = { draw: drawClawBase, matrix: mat4.identity(mat4.create())};
-    mat4.translate(clawBaseNode.matrix, [-4, 3, -2])
+    mat4.translate(clawBaseNode.matrix, [7, 4, -3])
 
     clawBodyNode = { draw: drawClawBody, matrix: mat4.identity(mat4.create())};
     mat4.translate(clawBodyNode.matrix, [0, -1, 0])
