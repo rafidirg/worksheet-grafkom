@@ -634,6 +634,16 @@ var birdLowerLeftLegNode; var birdLowerLeftLegAngle = 0; var birdLowerLeftLegDir
 var birdRightFootNode; var birdRightFootAngle = 0; var birdRightFootDirection = 1;
 var birdLeftFootNode; var birdLeftFootAngle = 0; var birdLeftFootDirection = 1;
 
+// Claw
+var clawBaseNode; var clawBaseRotation = 0; var clawBaseDirection = 1;
+var clawBodyNode; 
+var clawSecondBodyNode; var clawArmTranslation = 0; var clawArmDirection = 1;
+var clawFingerBaseNode;
+var clawFirstFingerUpperNode; var clawFirstUpperFingerRotation = 0; var clawFirstDirection = 1;
+var clawSecondFingerUpperNode; var clawSecondUpperFingerRotation = 0; var clawSecondDirection = 1;
+var clawFirstFingerLowerNode;
+var clawSecondFingerLowerNode;
+
 function drawLightSource(shadow) {
     mvPushMatrix();
     //item specific modifications
@@ -777,6 +787,61 @@ function drawBirdFoot(shadow) {
     mvPopMatrix(shadow);
 }
 
+/**
+ * Function to draw Claw Machine
+ */
+
+function drawClawBase(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [1, 0.2, 1]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawClawBody(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.3, 1, 0.3]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawClawSecondBody(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.2, 1, 0.2]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);
+}
+
+function drawClawFingerBase(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.5, 0.2, 0.5]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);   
+}
+
+function drawClawFinger(shadow) {
+    mvPushMatrix();
+    mat4.scale(mvMatrix, [0.1, 0.4, 0.1]);
+    setupToDrawCube(shadow);
+    setMatrixUniforms(shadow);
+    chooseTexture(2, shadow);
+    gl.drawElements(objectDrawMode || gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix(shadow);   
+}
+
+
 function initObjectTree() {
     lightSourceNode = { "draw": drawLightSource, "matrix": mat4.identity(mat4.create()) };
     mat4.translate(lightSourceNode.matrix, [document.getElementById("lightPositionX").value / 10.0, document.getElementById("lightPositionY").value / 10.0, document.getElementById("lightPositionZ").value / 10.0]);
@@ -877,6 +942,39 @@ function initObjectTree() {
     mat4.rotate(birdLeftFootNode.matrix, ((birdRightFootAngle - 60) * Math.PI) / 180, [0.0, 0.0, 1.0]);
 
     /**
+     * Create Claw Node
+     */
+    clawBaseNode = { draw: drawClawBase, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawBaseNode.matrix, [-4, 3, -2])
+
+    clawBodyNode = { draw: drawClawBody, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawBodyNode.matrix, [0, -1, 0])
+
+    clawSecondBodyNode = { draw: drawClawSecondBody, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawSecondBodyNode.matrix, [0, clawArmTranslation, 0])
+
+    clawFingerBaseNode = { draw: drawClawFingerBase, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawFingerBaseNode.matrix, [0, -1, 0])
+
+    clawFirstFingerUpperNode = { draw: drawClawFinger, matrix: mat4.identity(mat4.create())};
+    mat4.rotate(clawFirstFingerUpperNode.matrix, clawFirstUpperFingerRotation, [0, 0, -1])
+    mat4.translate(clawFirstFingerUpperNode.matrix, [-0.3, -0.5, 0])
+
+    clawSecondFingerUpperNode = { draw: drawClawFinger, matrix: mat4.identity(mat4.create())};
+    mat4.rotate(clawSecondFingerUpperNode.matrix, clawSecondUpperFingerRotation, [0, 0, 1])
+    mat4.translate(clawSecondFingerUpperNode.matrix, [0.3, -0.5, 0])
+
+    clawFirstFingerLowerNode = { draw: drawClawFinger, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawFirstFingerLowerNode.matrix, [-0.3, 0, 0])
+    mat4.rotate(clawFirstFingerLowerNode.matrix, 45 * Math.PI / 180, [0, 0, 1])
+    mat4.translate(clawFirstFingerLowerNode.matrix, [0, -0.8, 0])
+
+    clawSecondFingerLowerNode = { draw: drawClawFinger, matrix: mat4.identity(mat4.create())};
+    mat4.translate(clawSecondFingerLowerNode.matrix, [0.3, 0, 0])
+    mat4.rotate(clawSecondFingerLowerNode.matrix, 45 * Math.PI / 180, [0,  0, -1])
+    mat4.translate(clawSecondFingerLowerNode.matrix, [0, -0.8, 0])
+
+    /**
      * Create Spider Hiearchical Model
      */
     baseSpiderBodyNode.child = firstSpiderRightLegNode;
@@ -902,6 +1000,18 @@ function initObjectTree() {
     birdUpperLeftLegNode.child = birdLowerLeftLegNode;
     birdLowerRightLegNode.child = birdRightFootNode;
     birdLowerLeftLegNode.child = birdLeftFootNode;
+
+    /**
+     * Create Claw Hierarhical Model
+     */
+    birdBodyNode.sibling = clawBaseNode;
+    clawBaseNode.child = clawBodyNode;
+    clawBodyNode.child = clawSecondBodyNode;
+    clawSecondBodyNode.child = clawFingerBaseNode;
+    clawFingerBaseNode.child = clawFirstFingerUpperNode;
+    clawFirstFingerUpperNode.sibling = clawSecondFingerUpperNode;
+    clawFirstFingerUpperNode.child = clawFirstFingerLowerNode;
+    clawSecondFingerUpperNode.child = clawSecondFingerLowerNode;
 }
 
 function traverse(node, shadow) {
@@ -1356,6 +1466,25 @@ function animate() {
         if (birdLeftFootAngle < 0 && birdLeftFootDirection == -1) birdLeftFootDirection *= -1;
         if (birdLeftFootAngle > Math.PI / 4 && birdLeftFootDirection == 1) birdLeftFootDirection *= -1;
         document.getElementById("birdLeftFootRotationSlider").value = birdLeftFootAngle * 180 / (Math.PI);
+    
+        // Claw Animation
+        clawBaseRotation += (clawBaseRotation + update) % (2 * Math.PI)
+        document.getElementById("clawBaseRotationSlider").value = clawBaseRotation * 180 / (Math.PI)
+
+        clawArmTranslation += update*clawArmDirection;
+        if(clawArmTranslation > 0 && clawArmDirection == 1) clawArmDirection *= -1;
+        if(clawArmTranslation < -2 && clawArmDirection == -1) clawArmDirection *= -1;
+        document.getElementById("clawArmTranslationSlider").value = clawArmTranslation * 100
+
+        clawFirstUpperFingerRotation += 0.5*update*clawFirstDirection
+        if(clawFirstUpperFingerRotation > 40 * Math.PI / 180 && clawFirstDirection == 1) clawFirstDirection *= -1;
+        if(clawFirstUpperFingerRotation < 10 * Math.PI / 180 && clawFirstDirection == -1) clawFirstDirection *= -1;
+        document.getElementById("clawFirstUpperFingerRotationSlider").value = clawFirstUpperFingerRotation * 180 / (Math.PI)
+
+        clawSecondUpperFingerRotation += 0.5*update*clawSecondDirection
+        if(clawSecondUpperFingerRotation > 40 * Math.PI / 180 && clawSecondDirection == 1) clawSecondDirection *= -1;
+        if(clawSecondUpperFingerRotation < 10 * Math.PI / 180 && clawSecondDirection == -1) clawSecondDirection *= -1;
+        document.getElementById("clawSecondUpperFingerRotationSlider").value = clawSecondUpperFingerRotation * 180 / (Math.PI)
     }
     initObjectTree();
 }
@@ -1399,6 +1528,13 @@ function initInputs() {
             document.getElementById("birdLowerLeftLegRotationSlider").disabled = true;
             document.getElementById("birdRightFootRotationSlider").disabled = true;
             document.getElementById("birdLeftFootRotationSlider").disabled = true;
+
+            // Claw Machine
+            document.getElementById("clawBaseRotationSlider").disabled = true;
+            document.getElementById("clawArmTranslationSlider").disabled = true;
+            document.getElementById("clawFirstUpperFingerRotationSlider").disabled = true;
+            document.getElementById("clawSeoncdUpperFingerRotationSlider").disabled = true;
+
         } else {
             // Spider
             document.getElementById("baseSpiderRotationSlider").disabled = false;
@@ -1423,8 +1559,16 @@ function initInputs() {
             document.getElementById("birdLowerLeftLegRotationSlider").disabled = false;
             document.getElementById("birdRightFootRotationSlider").disabled = false;
             document.getElementById("birdLeftFootRotationSlider").disabled = false;
+        
+            // Claw Machine
+            document.getElementById("clawBaseRotationSlider").disabled = false;
+            document.getElementById("clawArmTranslationSlider").disabled = false;
+            document.getElementById("clawFirstUpperFingerRotationSlider").disabled = false;
+            document.getElementById("clawSeoncdUpperFingerRotationSlider").disabled = false;
+
         }
     };
+
     // Spider
     document.getElementById("baseSpiderRotationSlider").oninput = function () {
         baseSpiderAngle = document.getElementById("baseSpiderRotationSlider").value * Math.PI / 180;
@@ -1487,6 +1631,20 @@ function initInputs() {
     }
     document.getElementById("birdLeftFootRotationSlider").oninput = function () {
         birdLeftFootAngle = document.getElementById("birdLeftFootRotationSlider").value * Math.PI / 180;
+    }
+
+    // Claw Machine 
+    document.getElementById("clawBaseRotationSlider").oninput = function() {
+        clawBaseRotation = document.getElementById("clawBaseRotation").value * Math.PI / 180;
+    }
+    document.getElementById("clawArmTranslationSlider").oninput = function() {
+        clawArmTranslation = document.getElementById("clawArmTranslationSlider").value / 100;
+    }
+    document.getElementById("clawFirstUpperFingerRotationSlider").oninput = function() {
+        clawFirstUpperFingerRotation = document.getElementById("clawFirstUpperFingerRotationSlider").value * Math.PI / 180
+    }
+    document.getElementById("clawSecondUpperFingerRotationSlider").oninput = function() {
+        clawSecondUpperFingerRotation = document.getElementById("clawSecondUpperFingerRotationSlider").value * Math.PI / 180
     }
 
     document.getElementById("draw-mode").onchange = function () {
