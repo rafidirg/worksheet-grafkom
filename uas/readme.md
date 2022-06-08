@@ -38,9 +38,11 @@
     - Membuat camera view (umum dan dari salah satu objek berhirarki)
     - Membuat mode wireframe
     - Menerapkan texture pada objek-objek 
+    - Membuat readme
 - Lazuardi Pratama Putra Nusantara (1906398225):
     - Membuat model bird, table, dan piston
     - Menerapkan texture pada objek-objek
+    - Membuat readme
 
 ### Referensi:
 - https://scele.cs.ui.ac.id/mod/resource/view.php?id=103463
