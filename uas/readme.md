@@ -1,4 +1,7 @@
-### Cara menggunakan Program:
+### Link Video:
+https://drive.google.com/file/d/183QHOmq8fn_Nb2pNFi6EoClEKGD3GOHq/view?usp=sharing
+
+### Cara Menggunakan Program:
 - Setup:
     - Disarankan membuka project menggunakan vs code
     - Menginstall extension live server
